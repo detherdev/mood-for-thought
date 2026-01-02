@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Track your daily emotions with Mood for Thought. Simple swipe gestures, beautiful calendar views, and secure cloud backup. Download free on iOS.">
+    <meta property="og:title" content="Mood for Thought - Daily Mood Tracker">
+    <meta property="og:description" content="Give your emotions the thought they deserve. Track your daily mood with simple swipe gestures.">
+    <meta property="og:type" content="website">
+    <title>Mood for Thought - Track Your Daily Emotions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .tagline {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .app-store-badge {
+            display: inline-block;
+            margin-top: 20px;
+        }
+        
+        .app-store-badge img {
+            height: 60px;
+            transition: transform 0.2s;
+        }
+        
+        .app-store-badge:hover img {
+            transform: scale(1.05);
+        }
+        
+        .features {
+            padding: 80px 20px;
+            background: white;
+        }
+        
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+            color: #667eea;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 30px;
+            border-radius: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        
+        .feature h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .feature p {
+            color: #666;
+            line-height: 1.7;
+        }
+        
+        .footer {
+            background: #2d3748;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .footer-links {
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .coming-soon {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .tagline {
+                font-size: 1.2em;
+            }
+            
+            .features h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Mood for Thought</h1>
+            <p class="tagline">Give your emotions the thought they deserve</p>
+            <p style="font-size: 1.2em; margin-bottom: 30px;">
+                Track your daily mood with simple swipe gestures.<br>
+                Discover patterns. Build awareness. Feel better.
+            </p>
+            
+            <div class="coming-soon">
+                📱 Coming Soon to the App Store
+            </div>
+            
+            <!-- Uncomment when app is live:
+            <a href="https://apps.apple.com/app/mood-for-thought/idXXXXXXXXX" class="app-store-badge" target="_blank">
+                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+            </a>
+            -->
+        </div>
+    </section>
+    
+    <section class="features">
+        <div class="features-container">
+            <h2>Simple. Beautiful. Thoughtful.</h2>
+            
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">👆</div>
+                    <h3>Intuitive Gestures</h3>
+                    <p>
+                        Swipe right for good, left for bad, up for mid. 
+                        Log your mood in seconds with smooth animations and haptic feedback.
+                    </p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h3>Beautiful Calendar</h3>
+                    <p>
+                        Visualize your emotional journey with an elegant calendar view. 
+                        See patterns at a glance with color-coded history.
+                    </p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">📅</div>
+                    <h3>iOS Calendar Sync</h3>
+                    <p>
+                        Optional integration with your native Calendar app. 
+                        See your moods alongside your daily events.
+                    </p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Private & Secure</h3>
+                    <p>
+                        Your data is yours alone. End-to-end encryption, 
+                        secure cloud backup, and zero data sharing.
+                    </p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">✨</div>
+                    <h3>Modern Design</h3>
+                    <p>
+                        Built with iOS 26 design principles. Smooth animations, 
+                        glassmorphism effects, and delightful interactions.
+                    </p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">💭</div>
+                    <h3>Add Context</h3>
+                    <p>
+                        Optional notes let you capture thoughts and context 
+                        for deeper emotional awareness over time.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="mailto:support@moodforthought.app">Support</a>
+        </div>
+        <p>&copy; 2026 Mood for Thought. All rights reserved.</p>
+        <p style="margin-top: 10px; opacity: 0.7; font-size: 0.9em;">
+            Made with care for your emotional wellbeing
+        </p>
+    </footer>
+</body>
+</html>
+
