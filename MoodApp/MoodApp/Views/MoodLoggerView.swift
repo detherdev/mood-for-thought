@@ -163,11 +163,18 @@ struct MoodLoggerView: View {
                 
                 // Hint text - only shows when no mood selected
                 if selectedMood == nil && !isLoadingMood {
-                    HStack(spacing: 6) {
-                        Image(systemName: "hand.draw")
-                            .font(.system(size: 12))
-                        Text("Swipe to select mood")
-                            .font(.system(size: 13, weight: .medium))
+                    VStack(spacing: 4) {
+                        HStack(spacing: 6) {
+                            Image(systemName: "hand.draw")
+                                .font(.system(size: 12))
+                            Text("Swipe to select mood")
+                                .font(.system(size: 13, weight: .medium))
+                        }
+                        
+                        // Direction hints
+                        Text("← Bad  •  ↑ Mid  •  Good →")
+                            .font(.system(size: 11, weight: .regular))
+                            .opacity(0.8)
                     }
                     .foregroundColor(.secondary.opacity(0.6))
                     .transition(.opacity.combined(with: .move(edge: .top)))
