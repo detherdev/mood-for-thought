@@ -1,0 +1,171 @@
+import SwiftUI
+import Supabase
+
+struct SignUpView: View {
+    let showLogin: () -> Void
+    @State private var email = ""
+    @State private var password = ""
+    @State private var confirmPassword = ""
+    @State private var error: String? = nil
+    @State private var isLoading = false
+    @State private var isSuccess = false
+    
+    var body: some View {
+        ZStack {
+            // Background
+            ZStack {
+                Color.white.ignoresSafeArea()
+                DepthBlob(color: .blue.opacity(0.2)).offset(x: -150, y: -300)
+                DepthBlob(color: .purple.opacity(0.2)).offset(x: 150, y: 300)
+            }
+            
+            VStack(spacing: 32) {
+                VStack(spacing: 8) {
+                    Text("Create Account")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                    Text("Join the next generation")
+                        .font(.system(size: 14, weight: .bold))
+                        .textCase(.uppercase)
+                        .tracking(2)
+                        .opacity(0.4)
+                }
+                .padding(.top, 60)
+                
+                if isSuccess {
+                    VStack(spacing: 24) {
+                        Image(systemName: "envelope.fill")
+                            .font(.system(size: 60))
+                            .foregroundColor(.green)
+                        Text("Check your email")
+                            .font(.headline)
+                        Text("We've sent a verification link to your inbox.")
+                            .multilineTextAlignment(.center)
+                            .opacity(0.6)
+                        
+                        Button("Back to Login") {
+                            showLogin()
+                        }
+                        .fontWeight(.bold)
+                    }
+                    .padding(32)
+                    .ios26Glass(radius: 40)
+                } else {
+                    VStack(spacing: 20) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Email")
+                                .font(.system(size: 10, weight: .bold))
+                                .textCase(.uppercase)
+                                .tracking(2)
+                                .opacity(0.5)
+                                .padding(.leading, 4)
+                            
+                            TextField("name@email.com", text: $email)
+                                .keyboardType(.emailAddress)
+                                .autocapitalization(.none)
+                                .padding()
+                                .background(Color.black.opacity(0.05))
+                                .cornerRadius(20)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Password")
+                                .font(.system(size: 10, weight: .bold))
+                                .textCase(.uppercase)
+                                .tracking(2)
+                                .opacity(0.5)
+                                .padding(.leading, 4)
+                            
+                            SecureField("••••••••", text: $password)
+                                .padding()
+                                .background(Color.black.opacity(0.05))
+                                .cornerRadius(20)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Confirm Password")
+                                .font(.system(size: 10, weight: .bold))
+                                .textCase(.uppercase)
+                                .tracking(2)
+                                .opacity(0.5)
+                                .padding(.leading, 4)
+                            
+                            SecureField("••••••••", text: $confirmPassword)
+                                .padding()
+                                .background(Color.black.opacity(0.05))
+                                .cornerRadius(20)
+                        }
+                        
+                        if let error = error {
+                            Text(error)
+                                .font(.caption)
+                                .foregroundColor(.red)
+                                .padding(.horizontal)
+                        }
+                        
+                        Button(action: handleSignUp) {
+                            if isLoading {
+                                ProgressView()
+                                    .tint(.white)
+                            } else {
+                                Text("Create Account")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .textCase(.uppercase)
+                                    .tracking(3)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 20)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(24)
+                        .shadow(color: .blue.opacity(0.3), radius: 15, x: 0, y: 8)
+                        .disabled(isLoading)
+                    }
+                    .padding(24)
+                    .ios26Glass(radius: 40)
+                }
+                
+                Spacer()
+                
+                HStack {
+                    Text("Already have an account?")
+                        .opacity(0.6)
+                    Button("Log In") {
+                        showLogin()
+                    }
+                    .fontWeight(.bold)
+                    .foregroundColor(.blue)
+                }
+                .font(.subheadline)
+                .padding(.bottom, 20)
+            }
+            .padding()
+        }
+        .preferredColorScheme(.light)
+    }
+    
+    private func handleSignUp() {
+        guard !email.isEmpty && !password.isEmpty && password == confirmPassword else {
+            if password != confirmPassword { error = "Passwords do not match" }
+            return
+        }
+        
+        isLoading = true
+        error = nil
+        
+        Task {
+            do {
+                try await SupabaseManager.shared.client.auth.signUp(email: email, password: password)
+                await MainActor.run {
+                    self.isLoading = false
+                    self.isSuccess = true
+                }
+            } catch {
+                await MainActor.run {
+                    self.error = error.localizedDescription
+                    self.isLoading = false
+                }
+            }
+        }
+    }
+}
