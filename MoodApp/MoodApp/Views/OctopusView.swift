@@ -1,7 +1,8 @@
 import SwiftUI
 
-/// Animated reversible octopus plush view
+/// Animated reversible octopus plush view - ULTRA SMOOTH 60 FRAME VERSION
 /// Maps mood to octopus state: Good = Pink/Happy, Bad = Blue/Sad, Mid = Mixed
+/// Cinema-quality 60fps animation with GPU acceleration
 struct OctopusView: View {
     /// Current mood (nil if no mood selected)
     let mood: MoodType?
@@ -16,6 +17,9 @@ struct OctopusView: View {
     /// Whether the octopus is currently being dragged
     let isDragging: Bool
     
+    // 60 frames for cinema-quality smoothness (subsampled from 231 original frames)
+    private let totalFrames: Int = 60
+    
     var body: some View {
         ZStack {
             // Background glow when dragging
@@ -27,40 +31,45 @@ struct OctopusView: View {
                     .opacity(0.4)
             }
             
-            // The octopus
+            // The octopus - GPU accelerated for smooth 60fps performance
             octopusImage
                 .resizable()
+                .interpolation(.high) // High-quality image scaling
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size, height: size)
-                .rotationEffect(.degrees(isDragging ? dragProgress * 5 : 0)) // Slight tilt when dragging
+                .drawingGroup() // Render on GPU for maximum performance
+                .rotationEffect(.degrees(isDragging ? Double(dragProgress) * 5 : 0))
                 .scaleEffect(isDragging ? 1.1 : 1.0)
-                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isDragging)
-                .animation(.easeInOut(duration: 0.3), value: octopusFrame)
         }
+        // Use interactive spring for natural, responsive feel
+        .animation(.interactiveSpring(response: 0.2, dampingFraction: 0.85), value: isDragging)
     }
     
     /// Determines which octopus frame to show based on mood and drag progress
+    /// With 60 frames, each frame represents ~1.7% of the drag range for ultra-smooth animation
     private var octopusFrame: String {
         // If we have a saved mood, show the final state
         if let mood = mood, !isDragging {
             switch mood {
             case .good:
-                return "octopus-1" // Fully pink/happy (happy-1.png)
+                return "octopus-1" // First frame (happy/pink)
             case .bad:
-                return "octopus-10"   // Fully blue/sad (happy-10.png)
+                return "octopus-\(totalFrames)" // Last frame (sad/blue) - frame 60
             case .mid:
-                return "octopus-5"     // Middle state (happy-5.png)
+                return "octopus-\(totalFrames / 2)" // Middle frame (neutral) - frame 30
             }
         }
         
-        // Otherwise, show frame based on drag progress
-        // dragProgress: -1 to +1
-        // Map to frames: 10 (fully sad) to 1 (fully happy)
-        // Note: happy-1 = most happy, happy-10 = most sad
+        // Calculate frame based on drag progress
+        // dragProgress: -1 (sad) to +1 (happy)
+        // Map to frames: 60 (sad) to 1 (happy)
         let normalizedProgress = (dragProgress + 1) / 2 // Convert -1...1 to 0...1
-        let frameIndex = 10 - Int(normalizedProgress * 9) // Map 0...1 to 10...1
+        let rawFrameIndex = CGFloat(totalFrames) - (normalizedProgress * CGFloat(totalFrames - 1))
         
-        return "octopus-\(frameIndex.clamped(to: 1...10))"
+        // Round to nearest frame for smooth transitions
+        let frameIndex = Int(rawFrameIndex.rounded())
+        
+        return "octopus-\(frameIndex.clamped(to: 1...totalFrames))"
     }
     
     /// Glow color based on drag direction
