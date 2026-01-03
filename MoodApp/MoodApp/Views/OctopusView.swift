@@ -21,28 +21,17 @@ struct OctopusView: View {
     private let totalFrames: Int = 60
     
     var body: some View {
-        ZStack {
-            // Background glow when dragging
-            if isDragging {
-                Circle()
-                    .fill(octopusGlowColor)
-                    .frame(width: size * 1.3, height: size * 1.3)
-                    .blur(radius: 40)
-                    .opacity(0.4)
-            }
-            
-            // The octopus - GPU accelerated for smooth 60fps performance
-            octopusImage
-                .resizable()
-                .interpolation(.high) // High-quality image scaling
-                .aspectRatio(contentMode: .fit)
-                .frame(width: size, height: size)
-                .drawingGroup() // Render on GPU for maximum performance
-                .rotationEffect(.degrees(isDragging ? Double(dragProgress) * 5 : 0))
-                .scaleEffect(isDragging ? 1.1 : 1.0)
-        }
-        // Use interactive spring for natural, responsive feel
-        .animation(.interactiveSpring(response: 0.2, dampingFraction: 0.85), value: isDragging)
+        // The octopus - GPU accelerated for smooth 60fps performance
+        // No background glow needed since octopus images have their own colors
+        octopusImage
+            .resizable()
+            .interpolation(.high) // High-quality image scaling
+            .aspectRatio(contentMode: .fit)
+            .frame(width: size, height: size)
+            .drawingGroup() // Render on GPU for maximum performance
+            .rotationEffect(.degrees(isDragging ? Double(dragProgress) * 5 : 0))
+            .scaleEffect(isDragging ? 1.1 : 1.0)
+            .animation(.interactiveSpring(response: 0.2, dampingFraction: 0.85), value: isDragging)
     }
     
     /// Determines which octopus frame to show based on mood and drag progress
@@ -70,17 +59,6 @@ struct OctopusView: View {
         let frameIndex = Int(rawFrameIndex.rounded())
         
         return "octopus-\(frameIndex.clamped(to: 1...totalFrames))"
-    }
-    
-    /// Glow color based on drag direction
-    private var octopusGlowColor: Color {
-        if dragProgress > 0.3 {
-            return Color(red: 51/255, green: 199/255, blue: 140/255) // Emerald (Good)
-        } else if dragProgress < -0.3 {
-            return Color(red: 242/255, green: 115/255, blue: 115/255) // Coral (Bad)
-        } else {
-            return Color(red: 153/255, green: 166/255, blue: 179/255) // Slate (Mid)
-        }
     }
     
     /// Returns the appropriate octopus image
