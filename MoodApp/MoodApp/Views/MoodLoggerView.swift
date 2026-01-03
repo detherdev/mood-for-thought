@@ -376,30 +376,40 @@ struct MoodLoggerView: View {
         case .mid: targetFrame = 64   // Frame 64 (Mid)
         }
         
-        // Animate through frames
-        let frameDifference = abs(targetFrame - currentFrame)
-        let duration: TimeInterval = 0.6 // Total animation duration
-        let frameSteps = 12 // Number of intermediate frames to show
-        let step = frameDifference / frameSteps
+        // 24FPS animation - cinema frame rate
+        let fps: Double = 24.0
+        let frameDelay: TimeInterval = 1.0 / fps // 0.04167 seconds per frame
         
-        for i in 0...frameSteps {
-            let delay = duration * Double(i) / Double(frameSteps)
-            let frameProgress = Double(i) / Double(frameSteps)
-            let frame = currentFrame < targetFrame ?
-                currentFrame + Int(Double(frameDifference) * frameProgress) :
-                currentFrame - Int(Double(frameDifference) * frameProgress)
+        let frameDifference = abs(targetFrame - currentFrame)
+        
+        // Show ~48 frames over 2 seconds (48 / 24fps = 2 seconds)
+        let framesToShow = min(48, frameDifference)
+        let frameStep = frameDifference > 0 ? max(1, frameDifference / framesToShow) : 1
+        
+        // Animate through frames at 24FPS
+        var frameIndex = 0
+        let direction = currentFrame < targetFrame ? 1 : -1
+        
+        for i in 0...framesToShow {
+            let delay = frameDelay * Double(i)
+            let frameOffset = frameStep * i * direction
+            let frame = (currentFrame + frameOffset).clamped(to: min(currentFrame, targetFrame)...max(currentFrame, targetFrame))
             
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                withAnimation(.linear(duration: duration / Double(frameSteps))) {
-                    octopusAnimatedFrame = frame
-                }
+                octopusAnimatedFrame = frame
             }
         }
         
-        // Set final mood after animation completes
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+        // Set final mood after animation completes (48 frames / 24fps = 2 seconds)
+        let totalDuration = Double(framesToShow) * frameDelay
+        DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration) {
             selectedMood = targetMood
-            octopusAnimatedFrame = nil
+            octopusAnimatedFrame = targetFrame
+            
+            // Clear animated frame after a brief delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                octopusAnimatedFrame = nil
+            }
         }
     }
     
@@ -612,5 +622,12 @@ struct MoodButton: View {
             case .bad: return badColor
             case .mid: return midColor
         }
+    }
+}
+
+// Helper extension for clamping integers
+private extension Int {
+    func clamped(to range: ClosedRange<Int>) -> Int {
+        return Swift.min(Swift.max(self, range.lowerBound), range.upperBound)
     }
 }
