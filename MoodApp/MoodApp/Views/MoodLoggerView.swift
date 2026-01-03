@@ -376,23 +376,27 @@ struct MoodLoggerView: View {
         case .mid: targetFrame = 64   // Frame 64 (Mid)
         }
         
-        // 24FPS animation - cinema frame rate
-        let fps: Double = 24.0
-        let frameDelay: TimeInterval = 1.0 / fps // 0.04167 seconds per frame
+        // 60FPS for buttery smooth animation - matches iOS refresh rate
+        let fps: Double = 60.0
+        let frameDelay: TimeInterval = 1.0 / fps // 0.01667 seconds per frame (~16ms)
         
         let frameDifference = abs(targetFrame - currentFrame)
+        guard frameDifference > 0 else {
+            selectedMood = targetMood
+            return
+        }
         
-        // Show ~48 frames over 2 seconds (48 / 24fps = 2 seconds)
-        let framesToShow = min(48, frameDifference)
-        let frameStep = frameDifference > 0 ? max(1, frameDifference / framesToShow) : 1
+        // Show every 2nd or 3rd frame for good pacing
+        // For 160 frames: show every 2nd = 80 frames over 1.33 seconds
+        let skipFrames = max(1, frameDifference / 80) // Show up to 80 frames
+        let framesToShow = frameDifference / skipFrames
         
-        // Animate through frames at 24FPS
-        var frameIndex = 0
         let direction = currentFrame < targetFrame ? 1 : -1
         
+        // Animate through frames at 60FPS
         for i in 0...framesToShow {
             let delay = frameDelay * Double(i)
-            let frameOffset = frameStep * i * direction
+            let frameOffset = skipFrames * i * direction
             let frame = (currentFrame + frameOffset).clamped(to: min(currentFrame, targetFrame)...max(currentFrame, targetFrame))
             
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
@@ -400,7 +404,7 @@ struct MoodLoggerView: View {
             }
         }
         
-        // Set final mood after animation completes (48 frames / 24fps = 2 seconds)
+        // Set final mood after animation completes
         let totalDuration = Double(framesToShow) * frameDelay
         DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration) {
             selectedMood = targetMood

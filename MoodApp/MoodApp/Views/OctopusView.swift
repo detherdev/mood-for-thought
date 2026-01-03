@@ -25,28 +25,29 @@ struct OctopusView: View {
     private let totalFrames: Int = 160 // 0-indexed (0 to 160 = 161 frames)
     
     var body: some View {
-        ZStack {
-            // Beautiful colored glow (works with transparent backgrounds!)
-            if isDragging || animatedFrame != nil {
-                Circle()
-                    .fill(octopusGlowColor)
-                    .frame(width: size * 1.4, height: size * 1.4)
-                    .blur(radius: 50)
-                    .opacity(0.5)
-            }
-            
-            // The octopus - GPU accelerated for maximum smoothness
-            octopusImage
-                .resizable()
-                .interpolation(.high) // High-quality image scaling
-                .aspectRatio(contentMode: .fit)
-                .frame(width: size, height: size)
-                .drawingGroup() // Render on GPU for maximum performance
-                .rotationEffect(.degrees(isDragging ? Double(dragProgress) * 5 : 0))
-                .scaleEffect(isDragging ? 1.1 : 1.0)
-        }
-        .animation(.interactiveSpring(response: 0.2, dampingFraction: 0.85), value: isDragging)
-        .animation(.easeInOut(duration: 0.6), value: animatedFrame) // Smooth button transitions
+        // The octopus - GPU accelerated for maximum smoothness
+        octopusImage
+            .resizable()
+            .interpolation(.high) // High-quality image scaling
+            .aspectRatio(contentMode: .fit)
+            .frame(width: size, height: size)
+            .drawingGroup() // Render on GPU for maximum performance
+            .rotationEffect(.degrees(isDragging ? Double(dragProgress) * 5 : 0))
+            .scaleEffect(isDragging ? 1.1 : 1.0)
+            .background(
+                // Glow behind octopus - doesn't affect layout!
+                Group {
+                    if isDragging || animatedFrame != nil {
+                        Circle()
+                            .fill(octopusGlowColor)
+                            .frame(width: size * 1.4, height: size * 1.4)
+                            .blur(radius: 50)
+                            .opacity(0.5)
+                    }
+                }
+            )
+            .animation(.interactiveSpring(response: 0.2, dampingFraction: 0.85), value: isDragging)
+            .animation(.linear(duration: 0.016), value: animatedFrame) // Fast, smooth frame updates
     }
     
     /// Determines which octopus frame to show based on mood and drag progress
