@@ -376,13 +376,17 @@ struct MoodLoggerView: View {
         case .mid: targetFrame = 64   // Frame 64 (Mid)
         }
         
+        // SET MOOD IMMEDIATELY so button moves right away! 🎯
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
+            selectedMood = targetMood
+        }
+        
         // 60FPS for buttery smooth animation - matches iOS refresh rate
         let fps: Double = 60.0
         let frameDelay: TimeInterval = 1.0 / fps // 0.01667 seconds per frame (~16ms)
         
         let frameDifference = abs(targetFrame - currentFrame)
         guard frameDifference > 0 else {
-            selectedMood = targetMood
             return
         }
         
@@ -393,7 +397,7 @@ struct MoodLoggerView: View {
         
         let direction = currentFrame < targetFrame ? 1 : -1
         
-        // Animate through frames at 60FPS
+        // Animate through frames at 60FPS while button is already moving!
         for i in 0...framesToShow {
             let delay = frameDelay * Double(i)
             let frameOffset = skipFrames * i * direction
@@ -404,10 +408,9 @@ struct MoodLoggerView: View {
             }
         }
         
-        // Set final mood after animation completes
+        // Clear animated frame after animation completes
         let totalDuration = Double(framesToShow) * frameDelay
         DispatchQueue.main.asyncAfter(deadline: .now() + totalDuration) {
-            selectedMood = targetMood
             octopusAnimatedFrame = targetFrame
             
             // Clear animated frame after a brief delay
