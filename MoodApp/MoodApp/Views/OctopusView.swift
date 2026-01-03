@@ -45,35 +45,22 @@ struct OctopusView: View {
         if let mood = mood, !isDragging {
             switch mood {
             case .good:
-                return "octopus-happy-5" // Fully pink/happy
+                return "octopus-1" // Fully pink/happy (happy-1.png)
             case .bad:
-                return "octopus-sad-5"   // Fully blue/sad
+                return "octopus-10"   // Fully blue/sad (happy-10.png)
             case .mid:
-                return "octopus-mid"     // Mixed state
+                return "octopus-5"     // Middle state (happy-5.png)
             }
         }
         
         // Otherwise, show frame based on drag progress
         // dragProgress: -1 to +1
-        // Map to frames: 0 (fully sad) to 10 (fully happy)
+        // Map to frames: 10 (fully sad) to 1 (fully happy)
+        // Note: happy-1 = most happy, happy-10 = most sad
         let normalizedProgress = (dragProgress + 1) / 2 // Convert -1...1 to 0...1
-        let frameIndex = Int(normalizedProgress * 10).clamped(to: 0...10)
+        let frameIndex = 10 - Int(normalizedProgress * 9) // Map 0...1 to 10...1
         
-        return octopusFrameName(for: frameIndex)
-    }
-    
-    /// Maps frame index (0-10) to asset name
-    private func octopusFrameName(for index: Int) -> String {
-        switch index {
-        case 0...2:   return "octopus-sad-5"     // Fully blue/sad
-        case 3:       return "octopus-sad-4"     // Mostly blue
-        case 4:       return "octopus-sad-3"     // Transitioning
-        case 5:       return "octopus-mid"       // Half and half
-        case 6:       return "octopus-happy-3"   // Transitioning
-        case 7:       return "octopus-happy-4"   // Mostly pink
-        case 8...10:  return "octopus-happy-5"   // Fully pink/happy
-        default:      return "octopus-mid"
-        }
+        return "octopus-\(frameIndex.clamped(to: 1...10))"
     }
     
     /// Glow color based on drag direction
@@ -100,7 +87,7 @@ struct OctopusView: View {
 }
 
 // Helper extension to clamp integers
-extension Int {
+private extension Int {
     func clamped(to range: ClosedRange<Int>) -> Int {
         return min(max(self, range.lowerBound), range.upperBound)
     }
