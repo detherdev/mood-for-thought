@@ -302,7 +302,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoodApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Mood for Thought";
+				INFOPLIST_KEY_CFBundleDisplayName = Octomood;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Full calendar access allows the app to create and update mood entries in your calendar.";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "We'd like to add your daily mood entries to your calendar so you can track your emotional wellbeing alongside your other events.";
@@ -342,7 +342,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoodApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Mood for Thought";
+				INFOPLIST_KEY_CFBundleDisplayName = Octomood;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Full calendar access allows the app to create and update mood entries in your calendar.";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "We'd like to add your daily mood entries to your calendar so you can track your emotional wellbeing alongside your other events.";

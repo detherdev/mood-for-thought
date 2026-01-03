@@ -1,8 +1,8 @@
-# 📱 Mood for Thought
+# 🐙 Octomood
 
-> Give your emotions the thought they deserve
+> Track your mood with an adorable octopus companion
 
-Mood for Thought is a beautiful, minimal iOS app for tracking your daily emotional wellbeing. Simple swipe gestures make logging your mood effortless, while a stunning calendar view helps you discover patterns over time.
+Octomood is a beautiful, minimal iOS app for tracking your daily emotional wellbeing. Simple swipe gestures make logging your mood effortless, while a stunning calendar view helps you discover patterns over time. Features an adorable animated octopus that responds to your emotions!
 
 ## ✨ Features
 
@@ -33,9 +33,15 @@ Mood for Thought is a beautiful, minimal iOS app for tracking your daily emotion
 - **✨ Modern Design**
   - iOS 26 design aesthetic
   - Glassmorphism effects
-  - Smooth animations
+  - Smooth 60FPS animations
   - Haptic feedback
   - Interactive tutorial
+  
+- **🐙 Octopus Mode**
+  - Adorable animated octopus companion
+  - 161 frames of smooth animation
+  - Transitions from happy to sad
+  - Toggle in Account settings
 
 ## 🛠️ Tech Stack
 
@@ -56,8 +62,8 @@ Mood for Thought is a beautiful, minimal iOS app for tracking your daily emotion
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/mood-for-thought.git
-cd mood-for-thought
+git clone https://github.com/detherdev/octomood.git
+cd octomood
 ```
 
 2. Open the project in Xcode:
@@ -118,7 +124,7 @@ Coming soon!
 
 ## 🔐 Privacy
 
-We take your privacy seriously. Read our [Privacy Policy](https://yourusername.github.io/mood-for-thought/privacy-policy.html) to learn how we protect your data.
+We take your privacy seriously. Read our [Privacy Policy](https://detherdev.github.io/octomood/privacy-policy.html) to learn how we protect your data.
 
 **Key Points:**
 - We never sell or share your data
@@ -132,7 +138,7 @@ We take your privacy seriously. Read our [Privacy Policy](https://yourusername.g
 Coming soon to the App Store!
 
 <!-- Uncomment when live:
-<a href="https://apps.apple.com/app/mood-for-thought/idXXXXXXXXX">
+<a href="https://apps.apple.com/app/octomood/idXXXXXXXXX">
   <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on App Store" height="50">
 </a>
 -->
@@ -153,9 +159,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📧 Contact
 
-- **Support:** support@moodforthought.app
-- **Privacy:** privacy@moodforthought.app
-- **Website:** https://yourusername.github.io/mood-for-thought
+- **Support:** support@octomood.app
+- **Privacy:** privacy@octomood.app
+- **Website:** https://detherdev.github.io/octomood
 
 ## 🙏 Acknowledgments
 
@@ -165,5 +171,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Made with 💜 for your emotional wellbeing**
+**Made with 💜 and 🐙 for your emotional wellbeing**
 

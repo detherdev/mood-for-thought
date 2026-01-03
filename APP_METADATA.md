@@ -1,15 +1,15 @@
-# 📱 App Metadata - Mood for Thought
+# 🐙 App Metadata - Octomood
 
 ## 🏷️ **App Information**
 
 ### **Display Name:**
-**Mood for Thought**
+**Octomood**
 
 ### **Subtitle (30 characters max):**
-Track Your Daily Emotions
+Your Emotional Octopus Pal
 
 ### **Bundle Identifier:**
-`com.yourname.moodforthought` (or `com.yourcompany.moodforthought`)
+`com.detherdev.octomood` (or `com.yourcompany.octomood`)
 
 ---
 
@@ -18,18 +18,22 @@ Track Your Daily Emotions
 ### **Full Description:**
 
 ```
-Mood for Thought - Your Daily Emotional Check-In
+Octomood - Your Adorable Emotional Companion 🐙
 
-Track your mood with a simple swipe and discover patterns in your emotional wellbeing over time.
+Track your mood with a simple swipe and watch your adorable octopus friend respond to your emotions!
 
 ✨ FEATURES:
 • Intuitive swipe gesture to log your mood in seconds
-• Beautiful, minimal design with smooth animations
+• Adorable animated octopus companion (161 frames!)
+• Beautiful, minimal design with 60FPS animations
 • Calendar view to visualize your mood history
 • Optional sync with iOS Calendar app
 • Add personal notes for context
 • Secure cloud backup
 • Interactive onboarding
+
+🐙 OCTOPUS MODE:
+Your personal octopus companion responds to your emotions with smooth, high-quality animations. Watch it transition from happy to sad as you track your day. Toggle between classic circle mode and octopus mode anytime!
 
 🎯 THREE SIMPLE MOODS:
 → Swipe Right: Good
@@ -50,22 +54,22 @@ Your mood data is yours alone. We never share or sell your personal information.
 • Mindfulness practice
 
 🌟 THOUGHTFULLY DESIGNED:
-Built with care using modern iOS design principles. Smooth animations, haptic feedback, and intuitive gestures make tracking your mood a delightful daily ritual.
+Built with care using iOS 26 design principles. Smooth 60FPS animations, haptic feedback, and intuitive gestures make tracking your mood a delightful daily ritual. Plus, an adorable octopus friend!
 
-Give your emotions the thought they deserve. Download Mood for Thought today and start your journey to better emotional awareness.
+Track your mood with your new octopus pal. Download Octomood today! 🐙💜
 ```
 
-**Character count:** ~1,400 (App Store limit: 4,000)
+**Character count:** ~1,500 (App Store limit: 4,000)
 
 ---
 
 ## 🔑 **Keywords (100 characters max)**
 
 ```
-mood,tracker,journal,mental,health,emotions,wellbeing,diary,mindfulness,feelings
+mood,tracker,octopus,journal,mental,health,emotions,wellbeing,diary,mindfulness,feelings
 ```
 
-**Character count:** 84/100 ✅
+**Character count:** 92/100 ✅
 
 ---
 
@@ -79,19 +83,19 @@ mood,tracker,journal,mental,health,emotions,wellbeing,diary,mindfulness,feelings
 ## 📸 **Screenshot Captions** (Optional, but recommended)
 
 ### Screenshot 1 (Login/Welcome):
-"Welcome to Mood for Thought"
+"Welcome to Octomood 🐙"
 
 ### Screenshot 2 (Main Mood Logger):
 "Track your mood with a simple swipe"
 
-### Screenshot 3 (Calendar View):
+### Screenshot 3 (Octopus Mode):
+"Your adorable emotional companion"
+
+### Screenshot 4 (Calendar View):
 "Visualize your emotional journey"
 
-### Screenshot 4 (Account Settings):
+### Screenshot 5 (Account Settings):
 "Sync with iOS Calendar & manage your data"
-
-### Screenshot 5 (Tutorial):
-"Easy to learn, delightful to use"
 
 ---
 
@@ -113,35 +117,36 @@ Future expansions:
 ## 📋 **What's New** (For Version 1.0.0)
 
 ```
-Welcome to Mood for Thought!
+Welcome to Octomood! 🐙
 
 🎉 Initial Release
 
 • Track your daily mood with intuitive swipe gestures
+• Adorable animated octopus companion (toggle in settings!)
 • Beautiful calendar view of your emotional history
 • Optional iOS Calendar sync
 • Secure cloud backup with Supabase
 • Guided onboarding tutorial
-• Smooth animations and haptic feedback
+• Smooth 60FPS animations and haptic feedback
 
-Give your emotions the thought they deserve. Start tracking today!
+Meet your new emotional companion. Start tracking today! 🐙💜
 ```
 
 ---
 
 ## 🔐 **Privacy Policy Updates**
 
-Update your privacy policy to reference "Mood for Thought" instead of "Mood Tracker":
+Update your privacy policy to reference "Octomood":
 
 ### **Header:**
 ```
-Privacy Policy for Mood for Thought
-Last Updated: [Current Date]
+Privacy Policy for Octomood
+Last Updated: January 3, 2026
 ```
 
 ### **Introduction:**
 ```
-Mood for Thought ("we", "our", or "us") is committed to protecting your privacy. 
+Octomood ("we", "our", or "us") is committed to protecting your privacy. 
 This Privacy Policy explains how we collect, use, and safeguard your information 
 when you use our mobile application.
 ```
@@ -151,14 +156,11 @@ when you use our mobile application.
 ## 💬 **Support & Contact**
 
 ### **Support Email:**
-`support@moodforthought.app` (or your actual email)
+`support@octomood.app` (or your actual email)
 
-### **Website** (Optional):
-`https://moodforthought.app`
-or use a free option:
-- GitHub Pages: `https://yourusername.github.io/mood-for-thought`
-- Notion page (public)
-- Google Sites (free)
+### **Website:**
+- GitHub Pages: `https://detherdev.github.io/octomood`
+- GitHub Repo: `https://github.com/detherdev/octomood`
 
 ---
 
@@ -166,24 +168,26 @@ or use a free option:
 
 ### **Demo Account Credentials:**
 ```
-Email: demo@moodforthought.app
-Password: DemoMood2024!
+Email: demo@octomood.app
+Password: OctoDemo2026!
 
 Notes for Reviewer:
-Mood for Thought is an emotional wellbeing app that lets users track their daily mood 
-with simple swipe gestures.
+Octomood is an emotional wellbeing app that lets users track their daily mood 
+with simple swipe gestures and an adorable animated octopus companion.
 
 To test:
 1. Login with the credentials above
 2. Swipe right/left/up on the circle to select a mood
 3. View calendar history (History tab)
-4. Optional: Enable calendar sync in Account tab
-5. Tutorial appears on first launch (you can skip it)
+4. Enable "Octopus Mode" in Account tab to see the animated companion!
+5. Optional: Enable calendar sync in Account tab
+6. Tutorial appears on first launch (you can skip it)
 
 Key Features:
 • Right swipe = Good mood
 • Left swipe = Bad mood  
 • Up swipe = Mid mood
+• Octopus Mode = Animated octopus responds to your mood! 🐙
 • Calendar view shows mood history
 • iOS Calendar integration (optional)
 
@@ -226,10 +230,11 @@ Answer Apple's questionnaire:
 
 ### **Planned Features for v1.1:**
 - Dark mode support
+- More octopus animations and expressions
 - Widgets for home screen
 - Mood streaks and achievements
 - Export mood data
-- Customizable mood categories
+- Customizable octopus colors
 - Reminder notifications
 - Mood insights and analytics
 
@@ -242,6 +247,8 @@ Based on your app:
 - **Bad (Coral):** `#F27373` rgb(242, 115, 115)
 - **Mid (Slate):** `#99A6B3` rgb(153, 166, 179)
 - **Accent (Blue):** `#007AFF` iOS Blue
+- **Octopus Happy:** Pink/Coral tones
+- **Octopus Sad:** Blue tones
 
 ---
 
@@ -249,34 +256,35 @@ Based on your app:
 
 ### **Short (Twitter/X):**
 ```
-Mood for Thought - Track your daily emotions with a simple swipe. 
-Beautiful. Minimal. Thoughtful. 
+Octomood 🐙 - Track your emotions with an adorable octopus companion. 
+Smooth animations. Beautiful design. Thoughtful tracking. 
 
 Download now on the App Store 📱
 ```
 
 ### **Medium (Instagram):**
 ```
-Give your emotions the thought they deserve 💭
+Meet your new emotional companion 🐙💜
 
-Mood for Thought makes tracking your emotional wellbeing 
-simple and delightful. Just swipe to log your mood.
+Octomood makes tracking your wellbeing simple and delightful. 
+Just swipe to log your mood and watch your octopus friend respond!
 
 ✨ Simple swipe gestures
+🐙 Adorable animated companion
 📊 Beautiful calendar view
 🔒 Private & secure
 🎯 No ads, ever
 
 Available now on the App Store!
-#MoodForThought #MentalHealth #Wellbeing
+#Octomood #MentalHealth #Wellbeing #OctopusLove
 ```
 
 ### **Landing Page Hero:**
 ```
-Give Your Emotions
-The Thought They Deserve
+Track Your Mood
+With Your New Octopus Pal 🐙
 
-Track your daily mood with a simple swipe.
+Simple swipes. Adorable animations. 
 Discover patterns. Build awareness. Feel better.
 
 [Download on App Store]
@@ -287,33 +295,33 @@ Discover patterns. Build awareness. Feel better.
 ## 🌐 **Website Metadata** (If you create one)
 
 ### **Title Tag:**
-`Mood for Thought - Simple Daily Mood Tracking App`
+`Octomood 🐙 - Daily Mood Tracking with Your Octopus Companion`
 
 ### **Meta Description:**
 ```
-Track your daily emotions with Mood for Thought. Simple swipe gestures, 
-beautiful calendar views, and secure cloud backup. Download free on iOS.
+Track your daily emotions with Octomood and your adorable octopus companion. 
+Simple swipe gestures, 60FPS animations, and secure cloud backup. Download free on iOS.
 ```
 
 ### **OpenGraph (Social Sharing):**
 ```html
-<meta property="og:title" content="Mood for Thought - Daily Mood Tracker">
-<meta property="og:description" content="Give your emotions the thought they deserve. Track your daily mood with simple swipe gestures.">
-<meta property="og:image" content="[URL to your app icon or promo image]">
-<meta property="og:url" content="https://moodforthought.app">
+<meta property="og:title" content="Octomood 🐙 - Your Emotional Companion">
+<meta property="og:description" content="Track your mood with an adorable animated octopus. Simple swipes, beautiful design, secure & private.">
+<meta property="og:image" content="[URL to your app icon or octopus image]">
+<meta property="og:url" content="https://detherdev.github.io/octomood">
 ```
 
 ---
 
 ## ✅ **Quick Checklist:**
 
-- [ ] Update display name in Xcode ✅ (I did this)
+- [x] Update display name in Info.plist to "Octomood" ✅
+- [x] Update app icons ✅
 - [ ] Update bundle identifier in Xcode
-- [ ] Update Info.plist ✅ (I did this)
 - [ ] Create/update privacy policy with new name
 - [ ] Take screenshots (3 device sizes)
-- [ ] Set up App Store Connect with new name
-- [ ] Create demo account: demo@moodforthought.app
+- [ ] Set up App Store Connect with "Octomood"
+- [ ] Create demo account: demo@octomood.app
 - [ ] Write App Store description (use template above)
 - [ ] Add keywords (use template above)
 - [ ] Set up support email
@@ -326,26 +334,27 @@ beautiful calendar views, and secure cloud backup. Download free on iOS.
 ### **1. In Xcode:**
 1. Select your project (blue icon)
 2. Under **General** tab:
-   - **Display Name:** `Mood for Thought` ✅ Done
-   - **Bundle Identifier:** `com.yourname.moodforthought`
+   - **Display Name:** `Octomood` ✅ Done
+   - **Bundle Identifier:** `com.detherdev.octomood`
    - **Version:** `1.0.0`
    - **Build:** `1`
 
 ### **2. Create Privacy Policy:**
-Use the template from the submission guide, but replace all instances of "Mood Tracker" with "Mood for Thought"
+Use the template from the submission guide, but update with "Octomood"
 
 ### **3. App Store Connect:**
 When creating your app:
-- **Name:** Mood for Thought
-- **Subtitle:** Track Your Daily Emotions
+- **Name:** Octomood
+- **Subtitle:** Your Emotional Octopus Pal
 - Use the description from this file
 
 ---
 
-🎉 **Your app name "Mood for Thought" is perfect!** It's:
-- Memorable
-- Clear purpose
-- Play on words ("food for thought")
-- Professional yet friendly
+🎉 **Your app name "Octomood" is perfect!** It's:
+- Memorable & unique
+- Clear purpose (Mood tracking)
+- Playful & friendly
+- Includes the star: the octopus! 🐙
 - Easy to search for
+- Fun to say!
 
