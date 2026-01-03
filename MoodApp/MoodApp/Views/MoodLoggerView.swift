@@ -14,6 +14,7 @@ struct MoodLoggerView: View {
     @State private var showColorBurst = false
     @State private var burstColor: Color = .clear
     @State private var octopusModeEnabled = false
+    @State private var octopusAnimatedFrame: Int? = nil
     
     // Haptic Generators - Each mood has distinct feedback
     private let selectionFeedback = UISelectionFeedbackGenerator()
@@ -58,7 +59,8 @@ struct MoodLoggerView: View {
                             mood: selectedMood,
                             dragProgress: calculateDragProgress(),
                             size: 240,
-                            isDragging: dragIntensity > 0
+                            isDragging: dragIntensity > 0,
+                            animatedFrame: octopusAnimatedFrame
                         )
                         .scaleEffect(1.0 + dragIntensity * 0.05)
                         .offset(x: dragOffset.width * 0.8, y: dragOffset.height * 0.8)
@@ -324,6 +326,12 @@ struct MoodLoggerView: View {
             triggerDoubleTapHaptic(first: impactRigid, second: impactMedium, delay: 0.08)
         }
         
+        // In Octopus mode, animate through frames for smooth transition
+        if octopusModeEnabled {
+            animateOctopusTransition(to: mood, color: color)
+            return
+        }
+        
         // Visual "swipe" feedback when clicking a button (increased distance)
         let targetOffset: CGSize
         switch mood {
@@ -345,6 +353,53 @@ struct MoodLoggerView: View {
                 dragOffset = .zero
                 dragIntensity = 0
             }
+        }
+    }
+    
+    private func animateOctopusTransition(to targetMood: MoodType, color: Color) {
+        // Determine start and end frames
+        let currentFrame: Int
+        if let mood = selectedMood {
+            switch mood {
+            case .good: currentFrame = 0
+            case .bad: currentFrame = 160
+            case .mid: currentFrame = 64
+            }
+        } else {
+            currentFrame = 64 // Start from mid if no mood
+        }
+        
+        let targetFrame: Int
+        switch targetMood {
+        case .good: targetFrame = 0   // Frame 0 (Happy)
+        case .bad: targetFrame = 160  // Frame 160 (Sad)
+        case .mid: targetFrame = 64   // Frame 64 (Mid)
+        }
+        
+        // Animate through frames
+        let frameDifference = abs(targetFrame - currentFrame)
+        let duration: TimeInterval = 0.6 // Total animation duration
+        let frameSteps = 12 // Number of intermediate frames to show
+        let step = frameDifference / frameSteps
+        
+        for i in 0...frameSteps {
+            let delay = duration * Double(i) / Double(frameSteps)
+            let frameProgress = Double(i) / Double(frameSteps)
+            let frame = currentFrame < targetFrame ?
+                currentFrame + Int(Double(frameDifference) * frameProgress) :
+                currentFrame - Int(Double(frameDifference) * frameProgress)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                withAnimation(.linear(duration: duration / Double(frameSteps))) {
+                    octopusAnimatedFrame = frame
+                }
+            }
+        }
+        
+        // Set final mood after animation completes
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            selectedMood = targetMood
+            octopusAnimatedFrame = nil
         }
     }
     
