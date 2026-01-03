@@ -148,21 +148,21 @@ struct OctopusView_Previews: PreviewProvider {
             VStack {
                 Text("Happy (Good)")
                     .font(.caption)
-                OctopusView(mood: .good, dragProgress: 1.0, size: 200, isDragging: false)
+                OctopusView(mood: .good, dragProgress: 1.0, size: 200, isDragging: false, animatedFrame: nil)
             }
             
             // Mid octopus
             VStack {
                 Text("Mid")
                     .font(.caption)
-                OctopusView(mood: .mid, dragProgress: 0.0, size: 200, isDragging: false)
+                OctopusView(mood: .mid, dragProgress: 0.0, size: 200, isDragging: false, animatedFrame: nil)
             }
             
             // Sad octopus
             VStack {
                 Text("Sad (Bad)")
                     .font(.caption)
-                OctopusView(mood: .bad, dragProgress: -1.0, size: 200, isDragging: false)
+                OctopusView(mood: .bad, dragProgress: -1.0, size: 200, isDragging: false, animatedFrame: nil)
             }
         }
         .padding()
