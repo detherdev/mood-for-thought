@@ -180,6 +180,7 @@ struct AccountView: View {
                 
                 Spacer()
             }
+            .padding(.bottom, 100) // Space for fixed tab bar
         }
         .onAppear {
             impactLight.prepare()

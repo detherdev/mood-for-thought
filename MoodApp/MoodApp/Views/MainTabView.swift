@@ -50,7 +50,7 @@ struct MainTabView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .animation(.spring(response: 0.35, dampingFraction: 0.8), value: selectedTab)
             
-            // Floating Tab Bar (iOS 26 Style) - Compact
+            // Floating Tab Bar (iOS 26 Style) - Fixed position
             HStack(spacing: 8) {
                 TabButton(icon: "house.fill", label: "Log", isActive: selectedTab == 0, namespace: animation) {
                     impactLight.impactOccurred()
@@ -76,6 +76,7 @@ struct MainTabView: View {
             .ios26Glass(radius: 30)
             .padding(.horizontal, 40)
             .padding(.bottom, 12)
+            .ignoresSafeArea(.keyboard)
         }
         .preferredColorScheme(.light)
         .onAppear {
