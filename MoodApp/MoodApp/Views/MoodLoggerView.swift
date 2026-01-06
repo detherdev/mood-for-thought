@@ -364,7 +364,7 @@ struct MoodLoggerView: View {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            triggerColorBurst(color: color)
+            // No color burst for button clicks - only swipes show glow
             withAnimation(.spring(response: 0.4, dampingFraction: 0.65, blendDuration: 0)) {
                 selectedMood = mood
                 dragOffset = .zero
@@ -374,8 +374,7 @@ struct MoodLoggerView: View {
     }
     
     private func animateOctopusTransition(to targetMood: MoodType, color: Color) {
-        // Trigger color burst immediately! 🌟
-        triggerColorBurst(color: color)
+        // No color burst for button clicks - only swipes show glow
         
         // Determine start and end frames
         let currentFrame: Int
