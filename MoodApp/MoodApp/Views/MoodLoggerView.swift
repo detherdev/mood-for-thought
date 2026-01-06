@@ -199,6 +199,15 @@ struct MoodLoggerView: View {
                         MoodButton(type: .good, current: $selectedMood) { animateButtonSelection(to: .good) }
                     }
                     
+                    if showNote {
+                        TextField("What's on your mind?", text: $note)
+                            .font(.system(size: 14))
+                            .padding(12)
+                            .background(Color.black.opacity(0.05))
+                            .cornerRadius(16)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                    }
+                    
                     if !showNote {
                         Button("+ Add Context") {
                             impactLight.impactOccurred()
@@ -208,13 +217,6 @@ struct MoodLoggerView: View {
                         .textCase(.uppercase)
                         .tracking(2)
                         .opacity(0.5)
-                    } else {
-                        TextField("What's on your mind?", text: $note)
-                            .font(.system(size: 14))
-                            .padding(12)
-                            .background(Color.black.opacity(0.05))
-                            .cornerRadius(16)
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                     
                     Button(action: syncMood) {
