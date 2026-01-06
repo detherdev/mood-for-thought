@@ -32,6 +32,12 @@ struct MoodLoggerView: View {
     
     var body: some View {
         VStack(spacing: 32) {
+            // Date Indicator at top
+            Text(selectedDate.format("EEEE, MMMM d, yyyy"))
+                .font(.system(size: 13, weight: .medium))
+                .foregroundColor(.secondary)
+                .padding(.top, 20)
+            
             // Date Controls
             HStack(spacing: 40) {
                 Button(action: { moveDate(by: -1) }) {
@@ -48,7 +54,7 @@ struct MoodLoggerView: View {
                 .disabled(Calendar.current.isDateInToday(selectedDate))
                 .opacity(Calendar.current.isDateInToday(selectedDate) ? 0.3 : 1)
             }
-            .padding(.top, 60)
+            .padding(.top, 20)
             
             // Central Circle or Octopus
             VStack(spacing: 16) {
