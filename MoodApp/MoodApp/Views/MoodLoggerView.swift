@@ -127,9 +127,9 @@ struct MoodLoggerView: View {
                                 .fill(
                                     RadialGradient(
                                         gradient: Gradient(colors: [
-                                            burstColor.opacity(0.5),
                                             burstColor.opacity(0.3),
-                                            burstColor.opacity(0.15),
+                                            burstColor.opacity(0.2),
+                                            burstColor.opacity(0.1),
                                             burstColor.opacity(0.0)
                                         ]),
                                         center: .center,
@@ -463,14 +463,14 @@ struct MoodLoggerView: View {
     private func triggerColorBurst(color: Color) {
         burstColor = color
         
-        // Radiate outward effect
-        withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+        // Radiate outward effect - quick and subtle
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
             showColorBurst = true
         }
         
-        // Fade out
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            withAnimation(.easeOut(duration: 0.4)) {
+        // Fade out faster for subtlety
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            withAnimation(.easeOut(duration: 0.3)) {
                 showColorBurst = false
             }
         }

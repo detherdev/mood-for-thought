@@ -48,35 +48,40 @@ struct MainTabView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .animation(.spring(response: 0.35, dampingFraction: 0.8), value: selectedTab)
         }
-        .safeAreaInset(edge: .bottom) {
-            // Floating Tab Bar (iOS 26 Style) - FIXED at bottom
-            HStack(spacing: 8) {
-                TabButton(icon: "house.fill", label: "Log", isActive: selectedTab == 0, namespace: animation) {
-                    impactLight.impactOccurred()
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                        selectedTab = 0
+        .overlay(alignment: .bottom) {
+            // Floating Tab Bar (iOS 26 Style) - ABSOLUTE FIXED POSITION
+            VStack(spacing: 0) {
+                Spacer()
+                HStack(spacing: 8) {
+                    TabButton(icon: "house.fill", label: "Log", isActive: selectedTab == 0, namespace: animation) {
+                        impactLight.impactOccurred()
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                            selectedTab = 0
+                        }
+                    }
+                    TabButton(icon: "calendar", label: "History", isActive: selectedTab == 1, namespace: animation) {
+                        impactLight.impactOccurred()
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                            selectedTab = 1
+                        }
+                    }
+                    TabButton(icon: "person.circle.fill", label: "Account", isActive: selectedTab == 2, namespace: animation) {
+                        impactLight.impactOccurred()
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                            selectedTab = 2
+                        }
                     }
                 }
-                TabButton(icon: "calendar", label: "History", isActive: selectedTab == 1, namespace: animation) {
-                    impactLight.impactOccurred()
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                        selectedTab = 1
-                    }
-                }
-                TabButton(icon: "person.circle.fill", label: "Account", isActive: selectedTab == 2, namespace: animation) {
-                    impactLight.impactOccurred()
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                        selectedTab = 2
-                    }
-                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .ios26Glass(radius: 30)
+                .padding(.horizontal, 40)
+                .padding(.bottom, 34)
+                .background(Color.white.opacity(0.01))
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .ios26Glass(radius: 30)
-            .padding(.horizontal, 40)
-            .padding(.bottom, 12)
-            .padding(.top, 8)
-            .background(Color.white.opacity(0.01))
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+            .ignoresSafeArea(.all)
+            .allowsHitTesting(true)
         }
         .preferredColorScheme(.light)
         .onAppear {
