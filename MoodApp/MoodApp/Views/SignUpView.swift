@@ -22,13 +22,19 @@ struct SignUpView: View {
             
             VStack(spacing: 32) {
                 VStack(spacing: 16) {
-                    // App Icon
-                    Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 100, height: 100)
-                        .cornerRadius(22)
-                        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+                    // App Icon from bundle
+                    if let appIcon = getAppIcon() {
+                        Image(uiImage: appIcon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 100)
+                            .cornerRadius(22)
+                            .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 5)
+                    } else {
+                        // Fallback octopus emoji
+                        Text("🐙")
+                            .font(.system(size: 80))
+                    }
                     
                     Text("Octomood")
                         .font(.system(size: 36, weight: .bold, design: .rounded))
@@ -193,5 +199,16 @@ struct SignUpView: View {
                 }
             }
         }
+    }
+    
+    private func getAppIcon() -> UIImage? {
+        // Try to get the app icon from the bundle
+        if let icons = Bundle.main.object(forInfoDictionaryKey: "CFBundleIcons") as? [String: Any],
+           let primaryIcon = icons["CFBundlePrimaryIcon"] as? [String: Any],
+           let iconFiles = primaryIcon["CFBundleIconFiles"] as? [String],
+           let lastIcon = iconFiles.last {
+            return UIImage(named: lastIcon)
+        }
+        return nil
     }
 }

@@ -22,14 +22,21 @@ struct WelcomeView: View {
                 
                 // App Icon and Title
                 VStack(spacing: 20) {
-                    // App Icon
-                    Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 120, height: 120)
-                        .cornerRadius(26)
-                        .shadow(color: .black.opacity(0.1), radius: 15, x: 0, y: 8)
-                        .scaleEffect(pulseAnimation ? 1.05 : 1.0)
+                    // App Icon from bundle
+                    if let appIcon = getAppIcon() {
+                        Image(uiImage: appIcon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 120, height: 120)
+                            .cornerRadius(26)
+                            .shadow(color: .black.opacity(0.1), radius: 15, x: 0, y: 8)
+                            .scaleEffect(pulseAnimation ? 1.05 : 1.0)
+                    } else {
+                        // Fallback octopus emoji
+                        Text("🐙")
+                            .font(.system(size: 100))
+                            .scaleEffect(pulseAnimation ? 1.05 : 1.0)
+                    }
                     
                     VStack(spacing: 8) {
                         Text("Octomood")
@@ -142,6 +149,17 @@ struct WelcomeView: View {
         withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
             pulseAnimation = true
         }
+    }
+    
+    private func getAppIcon() -> UIImage? {
+        // Try to get the app icon from the bundle
+        if let icons = Bundle.main.object(forInfoDictionaryKey: "CFBundleIcons") as? [String: Any],
+           let primaryIcon = icons["CFBundlePrimaryIcon"] as? [String: Any],
+           let iconFiles = primaryIcon["CFBundleIconFiles"] as? [String],
+           let lastIcon = iconFiles.last {
+            return UIImage(named: lastIcon)
+        }
+        return nil
     }
 }
 
