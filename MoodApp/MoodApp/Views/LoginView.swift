@@ -144,6 +144,11 @@ struct LoginView: View {
             do {
                 try await SupabaseManager.shared.client.auth.signIn(email: email, password: password)
                 await SupabaseManager.shared.checkSession()
+                
+                // Success - stop loading
+                await MainActor.run {
+                    self.isLoading = false
+                }
             } catch {
                 await MainActor.run {
                     self.error = error.localizedDescription

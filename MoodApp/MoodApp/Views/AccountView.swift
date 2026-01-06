@@ -7,6 +7,8 @@ struct AccountView: View {
     @State private var calendarSyncEnabled = false
     @State private var octopusModeEnabled = true // Default to Octopus mode! 🐙
     @State private var showTutorial = false
+    @State private var showCloudSyncSheet = false
+    @State private var showSignUpInSheet = false
     private let impactLight = UIImpactFeedbackGenerator(style: .light)
     
     var body: some View {
@@ -129,13 +131,7 @@ struct AccountView: View {
                 if UserDefaults.standard.bool(forKey: "useLocalMode") {
                     // Local mode - offer to create account/login
                     VStack(spacing: 12) {
-                        Button(action: {
-                            impactLight.impactOccurred()
-                            // Switch to cloud mode by clearing local flag and showing auth
-                            UserDefaults.standard.set(false, forKey: "useLocalMode")
-                            // This will trigger app to show auth screens
-                            exit(0) // Restart app to show auth
-                        }) {
+                        Button(action: enableCloudSync) {
                             VStack(spacing: 6) {
                                 HStack {
                                     Image(systemName: "cloud")
@@ -205,6 +201,42 @@ struct AccountView: View {
                 .zIndex(999)
             }
         }
+        .fullScreenCover(isPresented: $showCloudSyncSheet) {
+            if showSignUpInSheet {
+                SignUpView(
+                    showLogin: { 
+                        showSignUpInSheet = false
+                    },
+                    skipLogin: { 
+                        showCloudSyncSheet = false
+                    }
+                )
+            } else {
+                LoginView(
+                    showSignUp: { 
+                        showSignUpInSheet = true
+                    },
+                    skipLogin: { 
+                        showCloudSyncSheet = false
+                    }
+                )
+            }
+        }
+        .onChange(of: supabaseManager.session) { newSession in
+            // If user logs in successfully, dismiss the cloud sync sheet
+            if newSession != nil && showCloudSyncSheet {
+                showCloudSyncSheet = false
+            }
+        }
+    }
+    
+    private func enableCloudSync() {
+        impactLight.impactOccurred()
+        // Clear local mode flag
+        UserDefaults.standard.set(false, forKey: "useLocalMode")
+        // Show login sheet
+        showSignUpInSheet = false // Start with login
+        showCloudSyncSheet = true
     }
     
     private func logout() {
