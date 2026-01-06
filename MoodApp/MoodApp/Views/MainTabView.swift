@@ -8,13 +8,11 @@ struct MainTabView: View {
     private let impactLight = UIImpactFeedbackGenerator(style: .light)
     
     var body: some View {
-        ZStack(alignment: .bottom) {
+        ZStack {
             // Background Depth
-            ZStack {
-                Color.white.ignoresSafeArea()
-                DepthBlob(color: .blue.opacity(0.3)).offset(x: -150, y: -300)
-                DepthBlob(color: .purple.opacity(0.3)).offset(x: 150, y: 300)
-            }
+            Color.white.ignoresSafeArea()
+            DepthBlob(color: .blue.opacity(0.3)).offset(x: -150, y: -300)
+            DepthBlob(color: .purple.opacity(0.3)).offset(x: 150, y: 300)
             
             // Content
             Group {
@@ -49,8 +47,9 @@ struct MainTabView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .animation(.spring(response: 0.35, dampingFraction: 0.8), value: selectedTab)
-            
-            // Floating Tab Bar (iOS 26 Style) - Fixed position
+        }
+        .safeAreaInset(edge: .bottom) {
+            // Floating Tab Bar (iOS 26 Style) - FIXED at bottom
             HStack(spacing: 8) {
                 TabButton(icon: "house.fill", label: "Log", isActive: selectedTab == 0, namespace: animation) {
                     impactLight.impactOccurred()
@@ -76,7 +75,8 @@ struct MainTabView: View {
             .ios26Glass(radius: 30)
             .padding(.horizontal, 40)
             .padding(.bottom, 12)
-            .ignoresSafeArea(.keyboard)
+            .padding(.top, 8)
+            .background(Color.white.opacity(0.01))
         }
         .preferredColorScheme(.light)
         .onAppear {
