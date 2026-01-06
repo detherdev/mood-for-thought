@@ -101,24 +101,33 @@ struct OctopusView: View {
         }
         
         // Color based on frame position
-        // Frames 0-17: Happy (pink/emerald glow)
-        // Frames 18-109: Transition (blend colors)
-        // Frames 110-160: Sad (blue/coral glow)
+        // Frames 0-17: Happy (emerald glow)
+        // Frames 18-50: Transition (emerald to yellow)
+        // Frames 51-77: Mid (yellow glow) - includes frame 64
+        // Frames 78-109: Transition (yellow to coral)
+        // Frames 110-160: Sad (coral glow)
+        
+        let emerald = Color(red: 51/255, green: 199/255, blue: 140/255)
+        let yellow = Color(red: 255/255, green: 204/255, blue: 51/255)
+        let coral = Color(red: 242/255, green: 115/255, blue: 115/255)
         
         if currentFrameIndex <= 17 {
             // Happy - Emerald glow
-            return Color(red: 51/255, green: 199/255, blue: 140/255)
-        } else if currentFrameIndex >= 110 {
-            // Sad - Coral glow
-            return Color(red: 242/255, green: 115/255, blue: 115/255)
+            return emerald
+        } else if currentFrameIndex >= 18 && currentFrameIndex <= 50 {
+            // Transition from emerald to yellow
+            let progress = CGFloat(currentFrameIndex - 18) / CGFloat(50 - 18)
+            return progress < 0.5 ? emerald : yellow
+        } else if currentFrameIndex >= 51 && currentFrameIndex <= 77 {
+            // Mid - Yellow glow
+            return yellow
+        } else if currentFrameIndex >= 78 && currentFrameIndex <= 109 {
+            // Transition from yellow to coral
+            let progress = CGFloat(currentFrameIndex - 78) / CGFloat(109 - 78)
+            return progress < 0.5 ? yellow : coral
         } else {
-            // Transition - Blend between emerald and coral
-            let transitionProgress = CGFloat(currentFrameIndex - 18) / CGFloat(109 - 18)
-            let emerald = Color(red: 51/255, green: 199/255, blue: 140/255)
-            let coral = Color(red: 242/255, green: 115/255, blue: 115/255)
-            
-            // Simple blend (can be improved with proper color interpolation)
-            return transitionProgress < 0.5 ? emerald : coral
+            // Sad - Coral glow
+            return coral
         }
     }
     

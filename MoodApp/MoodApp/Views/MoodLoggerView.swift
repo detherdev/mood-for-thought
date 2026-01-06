@@ -28,7 +28,7 @@ struct MoodLoggerView: View {
     // Professional Color Palette
     private let goodColor = Color(red: 0.2, green: 0.78, blue: 0.55) // Emerald
     private let badColor = Color(red: 0.95, green: 0.45, blue: 0.45) // Coral
-    private let midColor = Color(red: 0.6, green: 0.65, blue: 0.7) // Slate
+    private let midColor = Color(red: 1.0, green: 0.8, blue: 0.2) // Amber Yellow
     
     var body: some View {
         VStack(spacing: 32) {
