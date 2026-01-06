@@ -374,6 +374,9 @@ struct MoodLoggerView: View {
     }
     
     private func animateOctopusTransition(to targetMood: MoodType, color: Color) {
+        // Trigger color burst immediately! 🌟
+        triggerColorBurst(color: color)
+        
         // Determine start and end frames
         let currentFrame: Int
         if let mood = selectedMood {
