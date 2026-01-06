@@ -357,12 +357,12 @@ struct MoodCalendarView: View {
             let moodDict = Dictionary(uniqueKeysWithValues: localMoods.map { localMood in
                 let dateString = formatter.string(from: localMood.date)
                 let mood = Mood(
-                    id: localMood.id,
-                    userId: "local",
+                    id: UUID(),
+                    userId: UUID(),
                     date: dateString,
                     mood: localMood.mood,
                     note: localMood.note,
-                    isSyncedToCalendar: localMood.isSyncedToCalendar
+                    updatedAt: localMood.date
                 )
                 return (dateString, mood)
             })
@@ -456,12 +456,12 @@ struct MoodCalendarView: View {
                 let moodDict = Dictionary(uniqueKeysWithValues: localMoods.map { localMood in
                     let dateString = formatter.string(from: localMood.date)
                     let mood = Mood(
-                        id: localMood.id,
-                        userId: "local",
+                        id: UUID(),
+                        userId: UUID(),
                         date: dateString,
                         mood: localMood.mood,
                         note: localMood.note,
-                        isSyncedToCalendar: localMood.isSyncedToCalendar
+                        updatedAt: localMood.date
                     )
                     return (dateString, mood)
                 })
