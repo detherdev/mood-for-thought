@@ -56,7 +56,7 @@ struct MoodLoggerView: View {
             }
             .padding(.top, 20)
             
-            // Central Circle or Octopus
+            // Central Circle or Octopus - Lower for better reachability
             VStack(spacing: 16) {
                 ZStack {
                     if octopusModeEnabled {
@@ -186,6 +186,7 @@ struct MoodLoggerView: View {
                     .transition(.opacity.combined(with: .move(edge: .top)))
                 }
             }
+            .padding(.top, 60)
             
             Spacer()
             
