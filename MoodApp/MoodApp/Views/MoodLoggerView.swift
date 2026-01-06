@@ -461,17 +461,24 @@ struct MoodLoggerView: View {
     }
     
     private func triggerColorBurst(color: Color) {
+        // Cancel any existing burst first
+        showColorBurst = false
+        
+        // Set new color and trigger burst
         burstColor = color
         
-        // Radiate outward effect - quick and subtle
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-            showColorBurst = true
-        }
-        
-        // Fade out faster for subtlety
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            withAnimation(.easeOut(duration: 0.3)) {
-                showColorBurst = false
+        // Small delay to ensure previous animation is cancelled
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            // Radiate outward effect - quick and subtle
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                self.showColorBurst = true
+            }
+            
+            // Fade out faster for subtlety
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                withAnimation(.easeOut(duration: 0.3)) {
+                    self.showColorBurst = false
+                }
             }
         }
     }

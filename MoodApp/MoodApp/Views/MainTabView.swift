@@ -76,7 +76,7 @@ struct MainTabView: View {
                 .padding(.vertical, 8)
                 .ios26Glass(radius: 30)
                 .padding(.horizontal, 40)
-                .padding(.bottom, 34)
+                .padding(.bottom, 50)
                 .background(Color.white.opacity(0.01))
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
