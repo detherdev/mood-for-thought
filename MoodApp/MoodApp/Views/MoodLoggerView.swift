@@ -127,9 +127,9 @@ struct MoodLoggerView: View {
                                 .fill(
                                     RadialGradient(
                                         gradient: Gradient(colors: [
-                                            burstColor.opacity(0.8),
                                             burstColor.opacity(0.5),
-                                            burstColor.opacity(0.2),
+                                            burstColor.opacity(0.3),
+                                            burstColor.opacity(0.15),
                                             burstColor.opacity(0.0)
                                         ]),
                                         center: .center,
@@ -670,7 +670,7 @@ struct MoodButton: View {
     
     private let goodColor = Color(red: 0.2, green: 0.78, blue: 0.55)
     private let badColor = Color(red: 0.95, green: 0.45, blue: 0.45)
-    private let midColor = Color(red: 0.6, green: 0.65, blue: 0.7)
+    private let midColor = Color(red: 1.0, green: 0.8, blue: 0.2)
     
     var body: some View {
         Button(action: action) {
