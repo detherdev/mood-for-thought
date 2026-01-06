@@ -246,6 +246,9 @@ struct AccountView: View {
         Task {
             await supabaseManager.signOut()
             await MainActor.run {
+                // Reset to fresh app state
+                UserDefaults.standard.set(false, forKey: "hasSeenWelcome")
+                UserDefaults.standard.set(false, forKey: "useLocalMode")
                 isLoggingOut = false
             }
         }

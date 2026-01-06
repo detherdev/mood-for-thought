@@ -55,6 +55,15 @@ struct ContentView: View {
             }
         }
         .preferredColorScheme(.light)
+        .onChange(of: supabaseManager.session) { newSession in
+            // If user logs out, reset to welcome screen
+            if newSession == nil {
+                hasSeenWelcome = UserDefaults.standard.bool(forKey: "hasSeenWelcome")
+                useLocalMode = UserDefaults.standard.bool(forKey: "useLocalMode")
+                showLogin = false
+                showSignUp = false
+            }
+        }
     }
     
     private func chooseLocalMode() {
