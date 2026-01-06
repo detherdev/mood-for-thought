@@ -81,7 +81,7 @@ struct MainTabView: View {
                 .ios26Glass(radius: 30)
                 .padding(.horizontal, 40)
                 .frame(width: geometry.size.width, height: 80)
-                .position(x: geometry.size.width / 2, y: geometry.size.height - 20)
+                .position(x: geometry.size.width / 2, y: geometry.size.height)
                 .ignoresSafeArea(.all)
             }
         }
