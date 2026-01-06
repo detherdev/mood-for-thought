@@ -384,9 +384,10 @@ struct MoodCalendarView: View {
                     isRefreshing = false
                 }
             } catch {
-            print("Failed to refresh moods: \(error)")
-            await MainActor.run {
-                isRefreshing = false
+                print("Failed to refresh moods: \(error)")
+                await MainActor.run {
+                    isRefreshing = false
+                }
             }
         }
     }
