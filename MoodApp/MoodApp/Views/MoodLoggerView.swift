@@ -193,7 +193,29 @@ struct MoodLoggerView: View {
             // Bottom Action Card - Above tab bar
             if selectedMood != nil {
                 VStack(spacing: 12) {
-                    Spacer()
+                    HStack(spacing: 10) {
+                        MoodButton(type: .bad, current: $selectedMood) { animateButtonSelection(to: .bad) }
+                        MoodButton(type: .mid, current: $selectedMood) { animateButtonSelection(to: .mid) }
+                        MoodButton(type: .good, current: $selectedMood) { animateButtonSelection(to: .good) }
+                    }
+                    
+                    if !showNote {
+                        Button("+ Add Context") {
+                            impactLight.impactOccurred()
+                            withAnimation { showNote = true }
+                        }
+                        .font(.system(size: 9, weight: .bold))
+                        .textCase(.uppercase)
+                        .tracking(2)
+                        .opacity(0.5)
+                    } else {
+                        TextField("What's on your mind?", text: $note)
+                            .font(.system(size: 14))
+                            .padding(12)
+                            .background(Color.black.opacity(0.05))
+                            .cornerRadius(16)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                    }
                     
                     Button(action: syncMood) {
                         HStack(spacing: 8) {
@@ -227,32 +249,6 @@ struct MoodLoggerView: View {
                         .shadow(color: (isSaved ? goodColor : Color.blue).opacity(0.3), radius: 12, x: 0, y: 6)
                     }
                     .disabled(isSaving || isSaved)
-                    
-                    if !showNote {
-                        Button("+ Add Context") {
-                            impactLight.impactOccurred()
-                            withAnimation { showNote = true }
-                        }
-                        .font(.system(size: 9, weight: .bold))
-                        .textCase(.uppercase)
-                        .tracking(2)
-                        .opacity(0.5)
-                    }
-                    
-                    if showNote {
-                        TextField("What's on your mind?", text: $note)
-                            .font(.system(size: 14))
-                            .padding(12)
-                            .background(Color.black.opacity(0.05))
-                            .cornerRadius(16)
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
-                    }
-                    
-                    HStack(spacing: 10) {
-                        MoodButton(type: .bad, current: $selectedMood) { animateButtonSelection(to: .bad) }
-                        MoodButton(type: .mid, current: $selectedMood) { animateButtonSelection(to: .mid) }
-                        MoodButton(type: .good, current: $selectedMood) { animateButtonSelection(to: .good) }
-                    }
                 }
                 .frame(maxWidth: .infinity)
                 .padding(16)
