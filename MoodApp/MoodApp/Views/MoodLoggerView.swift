@@ -189,7 +189,7 @@ struct MoodLoggerView: View {
             
             Spacer()
             
-            // Bottom Action Card - Smaller and lower
+            // Bottom Action Card - Above tab bar
             if selectedMood != nil {
                 VStack(spacing: 12) {
                     HStack(spacing: 10) {
@@ -252,7 +252,7 @@ struct MoodLoggerView: View {
                 .padding(16)
                 .ios26Glass(radius: 32)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
-                .padding(.bottom, 8)
+                .padding(.bottom, 100)
             }
         }
         .padding()
