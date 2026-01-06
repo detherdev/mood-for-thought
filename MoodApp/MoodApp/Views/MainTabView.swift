@@ -8,50 +8,48 @@ struct MainTabView: View {
     private let impactLight = UIImpactFeedbackGenerator(style: .light)
     
     var body: some View {
-        ZStack {
-            // Background Depth
-            Color.white.ignoresSafeArea()
-            DepthBlob(color: .blue.opacity(0.3)).offset(x: -150, y: -300)
-            DepthBlob(color: .purple.opacity(0.3)).offset(x: 150, y: 300)
-            
-            // Content
-            Group {
-                if selectedTab == 0 {
-                    MoodLoggerView(selectedDate: $selectedDate)
-                        .transition(.asymmetric(
-                            insertion: .move(edge: .leading).combined(with: .opacity),
-                            removal: .move(edge: .trailing).combined(with: .opacity)
-                        ))
-                } else if selectedTab == 1 {
-                    MoodCalendarView(
-                        onDateSelected: { date in
-                            selectedDate = date
-                            impactLight.impactOccurred()
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                selectedTab = 0
+        GeometryReader { geometry in
+            ZStack {
+                // Background Depth
+                Color.white.ignoresSafeArea()
+                DepthBlob(color: .blue.opacity(0.3)).offset(x: -150, y: -300)
+                DepthBlob(color: .purple.opacity(0.3)).offset(x: 150, y: 300)
+                
+                // Content
+                Group {
+                    if selectedTab == 0 {
+                        MoodLoggerView(selectedDate: $selectedDate)
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .leading).combined(with: .opacity),
+                                removal: .move(edge: .trailing).combined(with: .opacity)
+                            ))
+                    } else if selectedTab == 1 {
+                        MoodCalendarView(
+                            onDateSelected: { date in
+                                selectedDate = date
+                                impactLight.impactOccurred()
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                    selectedTab = 0
+                                }
                             }
-                        }
-                    )
-                    .padding(.top, 120) // Accounting for header height
-                    .transition(.asymmetric(
-                        insertion: .opacity.combined(with: .scale(scale: 0.95)),
-                        removal: .opacity.combined(with: .scale(scale: 1.05))
-                    ))
-                } else {
-                    AccountView()
+                        )
+                        .padding(.top, 120) // Accounting for header height
                         .transition(.asymmetric(
-                            insertion: .move(edge: .trailing).combined(with: .opacity),
-                            removal: .move(edge: .leading).combined(with: .opacity)
+                            insertion: .opacity.combined(with: .scale(scale: 0.95)),
+                            removal: .opacity.combined(with: .scale(scale: 1.05))
                         ))
+                    } else {
+                        AccountView()
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .trailing).combined(with: .opacity),
+                                removal: .move(edge: .leading).combined(with: .opacity)
+                            ))
+                    }
                 }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .animation(.spring(response: 0.35, dampingFraction: 0.8), value: selectedTab)
-        }
-        .overlay(alignment: .bottom) {
-            // Floating Tab Bar (iOS 26 Style) - ABSOLUTE FIXED POSITION
-            VStack(spacing: 0) {
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .animation(.spring(response: 0.35, dampingFraction: 0.8), value: selectedTab)
+                
+                // Floating Tab Bar (iOS 26 Style) - ABSOLUTE FIXED POSITION
                 HStack(spacing: 8) {
                     TabButton(icon: "house.fill", label: "Log", isActive: selectedTab == 0, namespace: animation) {
                         impactLight.impactOccurred()
@@ -76,13 +74,11 @@ struct MainTabView: View {
                 .padding(.vertical, 8)
                 .ios26Glass(radius: 30)
                 .padding(.horizontal, 40)
-                .padding(.bottom, 50)
-                .background(Color.white.opacity(0.01))
+                .frame(width: geometry.size.width, height: 70)
+                .position(x: geometry.size.width / 2, y: geometry.size.height - 70)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-            .ignoresSafeArea(.all)
-            .allowsHitTesting(true)
         }
+        .ignoresSafeArea(.all)
         .preferredColorScheme(.light)
         .onAppear {
             impactLight.prepare()
