@@ -360,6 +360,12 @@ struct TutorialView: View {
     
     private let steps: [TutorialStep] = [
         TutorialStep(
+            icon: "note.text",
+            color: .orange,
+            title: "Add Context",
+            description: "After selecting your mood, tap the note button to add context about your day. Remember what made you feel that way!"
+        ),
+        TutorialStep(
             icon: "calendar",
             color: .purple,
             title: "View Your History",
