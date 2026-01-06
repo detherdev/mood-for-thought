@@ -80,8 +80,8 @@ struct MainTabView: View {
                 .padding(.vertical, 8)
                 .ios26Glass(radius: 30)
                 .padding(.horizontal, 40)
-                .frame(width: geometry.size.width, height: 70)
-                .position(x: geometry.size.width / 2, y: geometry.size.height - 35)
+                .frame(width: geometry.size.width, height: 80)
+                .position(x: geometry.size.width / 2, y: geometry.size.height - 20)
                 .ignoresSafeArea(.all)
             }
         }
