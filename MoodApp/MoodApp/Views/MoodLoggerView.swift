@@ -187,10 +187,12 @@ struct MoodLoggerView: View {
                 }
             }
             
-            // Bottom Action Card
+            Spacer()
+            
+            // Bottom Action Card - Smaller and lower
             if selectedMood != nil {
-                VStack(spacing: 20) {
-                    HStack(spacing: 12) {
+                VStack(spacing: 12) {
+                    HStack(spacing: 10) {
                         MoodButton(type: .bad, current: $selectedMood) { animateButtonSelection(to: .bad) }
                         MoodButton(type: .mid, current: $selectedMood) { animateButtonSelection(to: .mid) }
                         MoodButton(type: .good, current: $selectedMood) { animateButtonSelection(to: .good) }
@@ -201,56 +203,57 @@ struct MoodLoggerView: View {
                             impactLight.impactOccurred()
                             withAnimation { showNote = true }
                         }
-                        .font(.system(size: 10, weight: .bold))
+                        .font(.system(size: 9, weight: .bold))
                         .textCase(.uppercase)
                         .tracking(2)
                         .opacity(0.5)
                     } else {
                         TextField("What's on your mind?", text: $note)
-                            .padding()
+                            .font(.system(size: 14))
+                            .padding(12)
                             .background(Color.black.opacity(0.05))
-                            .cornerRadius(20)
+                            .cornerRadius(16)
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                     
                     Button(action: syncMood) {
-                        HStack(spacing: 12) {
+                        HStack(spacing: 8) {
                             if isSaving {
                                 ProgressView()
                                     .tint(.white)
+                                    .scaleEffect(0.9)
                                 Text("Saving...")
-                                    .font(.system(size: 14, weight: .bold))
+                                    .font(.system(size: 12, weight: .bold))
                                     .textCase(.uppercase)
-                                    .tracking(3)
+                                    .tracking(2)
                             } else if isSaved {
                                 Image(systemName: "checkmark.circle.fill")
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 16))
                                 Text("Saved")
-                                    .font(.system(size: 14, weight: .bold))
+                                    .font(.system(size: 12, weight: .bold))
                                     .textCase(.uppercase)
-                                    .tracking(3)
+                                    .tracking(2)
                             } else {
                                 Text("Confirm Mood")
-                                    .font(.system(size: 14, weight: .bold))
+                                    .font(.system(size: 12, weight: .bold))
                                     .textCase(.uppercase)
-                                    .tracking(3)
+                                    .tracking(2)
                             }
                         }
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 20)
+                        .padding(.vertical, 14)
                         .background(isSaved ? goodColor : Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(24)
-                        .shadow(color: (isSaved ? goodColor : Color.blue).opacity(0.3), radius: 15, x: 0, y: 8)
+                        .cornerRadius(20)
+                        .shadow(color: (isSaved ? goodColor : Color.blue).opacity(0.3), radius: 12, x: 0, y: 6)
                     }
                     .disabled(isSaving || isSaved)
                 }
-                .padding(24)
-                .ios26Glass(radius: 40)
+                .padding(16)
+                .ios26Glass(radius: 32)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
+                .padding(.bottom, 8)
             }
-            
-            Spacer()
         }
         .padding()
         .onAppear {
@@ -668,13 +671,13 @@ struct MoodButton: View {
     var body: some View {
         Button(action: action) {
             Text(type.rawValue.uppercased())
-                .font(.system(size: 10, weight: .bold))
-                .tracking(2)
+                .font(.system(size: 9, weight: .bold))
+                .tracking(1.5)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
+                .padding(.vertical, 12)
                 .background(current == type ? color : Color.black.opacity(0.05))
                 .foregroundColor(current == type ? .white : .secondary)
-                .cornerRadius(20)
+                .cornerRadius(16)
         }
     }
     
