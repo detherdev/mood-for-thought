@@ -180,7 +180,7 @@ struct AccountView: View {
                 
                 Spacer()
             }
-            .padding(.bottom, 20)
+            .padding(.bottom, 100)
         }
         .onAppear {
             impactLight.prepare()

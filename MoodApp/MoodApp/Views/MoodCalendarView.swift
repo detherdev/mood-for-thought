@@ -97,7 +97,7 @@ struct MoodCalendarView: View {
                         moodLegend
                     }
                     .padding(.top, 8)
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 100)
                 }
                 .refreshable {
                     await refreshMoods()
