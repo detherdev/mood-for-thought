@@ -19,9 +19,34 @@ struct LoginView: View {
             }
             
             VStack(spacing: 32) {
-                VStack(spacing: 12) {
-                    Text("🐙")
-                        .font(.system(size: 60))
+                VStack(spacing: 16) {
+                    // App Icon Logo
+                    ZStack {
+                        // Subtle glow effect
+                        Circle()
+                            .fill(
+                                RadialGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.blue.opacity(0.15),
+                                        Color.purple.opacity(0.1),
+                                        Color.clear
+                                    ]),
+                                    center: .center,
+                                    startRadius: 0,
+                                    endRadius: 80
+                                )
+                            )
+                            .frame(width: 160, height: 160)
+                        
+                        // App Icon
+                        Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 100)
+                            .cornerRadius(22)
+                            .shadow(color: .black.opacity(0.15), radius: 15, x: 0, y: 8)
+                    }
+                    
                     Text("Octomood")
                         .font(.system(size: 36, weight: .bold, design: .rounded))
                     Text("Welcome Back")
