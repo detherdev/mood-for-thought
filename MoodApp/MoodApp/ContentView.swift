@@ -4,28 +4,49 @@ import Supabase
 struct ContentView: View {
     @StateObject var supabaseManager = SupabaseManager.shared
     @State private var showSignUp = false
+    @State private var showLogin = false
     @State private var useLocalMode = UserDefaults.standard.bool(forKey: "useLocalMode")
+    @State private var hasSeenWelcome = UserDefaults.standard.bool(forKey: "hasSeenWelcome")
     
     var body: some View {
         Group {
-            if !supabaseManager.isInitialized && !useLocalMode {
+            if !hasSeenWelcome {
+                // First launch - show welcome screen
+                WelcomeView(
+                    continueWithoutAccount: { chooseLocalMode() },
+                    showLogin: { 
+                        hasSeenWelcome = true
+                        showLogin = true
+                    },
+                    showSignUp: {
+                        hasSeenWelcome = true
+                        showSignUp = true
+                    }
+                )
+            } else if !supabaseManager.isInitialized && !useLocalMode {
                 // Loading screen while checking auth
                 ZStack {
                     Color.white.ignoresSafeArea()
                     ProgressView()
                         .tint(.blue)
                 }
-            } else if supabaseManager.session == nil && !useLocalMode {
-                // Auth screens
+            } else if (supabaseManager.session == nil && !useLocalMode) || showLogin || showSignUp {
+                // Auth screens (only if explicitly requested or not in local mode)
                 if showSignUp {
                     SignUpView(
-                        showLogin: { showSignUp = false },
-                        skipLogin: { skipToLocalMode() }
+                        showLogin: { 
+                            showSignUp = false
+                            showLogin = true
+                        },
+                        skipLogin: { chooseLocalMode() }
                     )
                 } else {
                     LoginView(
-                        showSignUp: { showSignUp = true },
-                        skipLogin: { skipToLocalMode() }
+                        showSignUp: { 
+                            showLogin = false
+                            showSignUp = true
+                        },
+                        skipLogin: { chooseLocalMode() }
                     )
                 }
             } else {
@@ -36,9 +57,13 @@ struct ContentView: View {
         .preferredColorScheme(.light)
     }
     
-    private func skipToLocalMode() {
+    private func chooseLocalMode() {
         useLocalMode = true
+        hasSeenWelcome = true
         UserDefaults.standard.set(true, forKey: "useLocalMode")
+        UserDefaults.standard.set(true, forKey: "hasSeenWelcome")
+        showLogin = false
+        showSignUp = false
     }
 }
 

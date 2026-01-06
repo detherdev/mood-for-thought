@@ -125,27 +125,62 @@ struct AccountView: View {
                 .ios26Glass(radius: 24)
                 .padding(.horizontal, 20)
                 
-                // Logout Button
-                Button(action: logout) {
-                    if isLoggingOut {
-                        ProgressView()
-                            .tint(.white)
-                    } else {
-                        Text("Logout")
-                            .font(.system(size: 14, weight: .bold))
-                            .textCase(.uppercase)
-                            .tracking(3)
+                // Logout or Login Button
+                if UserDefaults.standard.bool(forKey: "useLocalMode") {
+                    // Local mode - offer to create account/login
+                    VStack(spacing: 12) {
+                        Button(action: {
+                            impactLight.impactOccurred()
+                            // Switch to cloud mode by clearing local flag and showing auth
+                            UserDefaults.standard.set(false, forKey: "useLocalMode")
+                            // This will trigger app to show auth screens
+                            exit(0) // Restart app to show auth
+                        }) {
+                            VStack(spacing: 6) {
+                                HStack {
+                                    Image(systemName: "cloud")
+                                    Text("Enable Cloud Sync")
+                                        .font(.system(size: 14, weight: .bold))
+                                        .textCase(.uppercase)
+                                        .tracking(3)
+                                }
+                                Text("Sync your moods across devices")
+                                    .font(.system(size: 11))
+                                    .opacity(0.9)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 20)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(24)
+                        .shadow(color: .blue.opacity(0.3), radius: 15, x: 0, y: 8)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 20)
                     }
+                } else {
+                    // Cloud mode - offer logout
+                    Button(action: logout) {
+                        if isLoggingOut {
+                            ProgressView()
+                                .tint(.white)
+                        } else {
+                            Text("Logout")
+                                .font(.system(size: 14, weight: .bold))
+                                .textCase(.uppercase)
+                                .tracking(3)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 20)
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(24)
+                    .shadow(color: .red.opacity(0.3), radius: 15, x: 0, y: 8)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 20)
+                    .disabled(isLoggingOut)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 20)
-                .background(Color.red)
-                .foregroundColor(.white)
-                .cornerRadius(24)
-                .shadow(color: .red.opacity(0.3), radius: 15, x: 0, y: 8)
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
-                .disabled(isLoggingOut)
                 
                 Spacer()
             }
