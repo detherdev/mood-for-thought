@@ -13,7 +13,7 @@ struct MoodLoggerView: View {
     @State private var dragIntensity: CGFloat = 0
     @State private var showColorBurst = false
     @State private var burstColor: Color = .clear
-    @State private var octopusModeEnabled = false
+    @State private var octopusModeEnabled = true // Default to Octopus mode! 🐙
     @State private var octopusAnimatedFrame: Int? = nil
     
     // Haptic Generators - Each mood has distinct feedback
@@ -585,7 +585,14 @@ struct MoodLoggerView: View {
     }
     
     private func loadOctopusModeState() {
-        octopusModeEnabled = UserDefaults.standard.bool(forKey: "octopusModeEnabled")
+        // Check if user has set a preference, otherwise default to true (Octopus mode ON!)
+        if UserDefaults.standard.object(forKey: "octopusModeEnabled") != nil {
+            octopusModeEnabled = UserDefaults.standard.bool(forKey: "octopusModeEnabled")
+        } else {
+            // First launch - default to Octopus mode ON! 🐙
+            octopusModeEnabled = true
+            UserDefaults.standard.set(true, forKey: "octopusModeEnabled")
+        }
     }
     
     /// Calculates drag progress from -1 (left/bad) to +1 (right/good) for octopus animation

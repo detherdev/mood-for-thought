@@ -5,7 +5,7 @@ struct AccountView: View {
     @ObservedObject var supabaseManager = SupabaseManager.shared
     @State private var isLoggingOut = false
     @State private var calendarSyncEnabled = false
-    @State private var octopusModeEnabled = false
+    @State private var octopusModeEnabled = true // Default to Octopus mode! 🐙
     @State private var showTutorial = false
     private let impactLight = UIImpactFeedbackGenerator(style: .light)
     
@@ -191,7 +191,14 @@ struct AccountView: View {
     }
     
     private func loadOctopusModeState() {
-        octopusModeEnabled = UserDefaults.standard.bool(forKey: "octopusModeEnabled")
+        // Check if user has set a preference, otherwise default to true (Octopus mode ON!)
+        if UserDefaults.standard.object(forKey: "octopusModeEnabled") != nil {
+            octopusModeEnabled = UserDefaults.standard.bool(forKey: "octopusModeEnabled")
+        } else {
+            // First launch - default to Octopus mode ON! 🐙
+            octopusModeEnabled = true
+            UserDefaults.standard.set(true, forKey: "octopusModeEnabled")
+        }
     }
     
     private func handleOctopusModeToggle(_ enabled: Bool) {
