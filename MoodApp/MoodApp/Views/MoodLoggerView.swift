@@ -255,7 +255,7 @@ struct MoodLoggerView: View {
                 .padding(16)
                 .ios26Glass(radius: 32)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
-                .padding(.bottom, 10)
+                .padding(.bottom, 60)
             }
         }
         .padding()
