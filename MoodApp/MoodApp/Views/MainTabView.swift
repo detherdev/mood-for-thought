@@ -10,44 +10,50 @@ struct MainTabView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Background Depth
-                Color.white.ignoresSafeArea()
-                DepthBlob(color: .blue.opacity(0.3)).offset(x: -150, y: -300)
-                DepthBlob(color: .purple.opacity(0.3)).offset(x: 150, y: 300)
+                // Background Depth - extends behind safe areas
+                ZStack {
+                    Color.white
+                    DepthBlob(color: .blue.opacity(0.3)).offset(x: -150, y: -300)
+                    DepthBlob(color: .purple.opacity(0.3)).offset(x: 150, y: 300)
+                }
+                .ignoresSafeArea()
                 
-                // Content
-                Group {
-                    if selectedTab == 0 {
-                        MoodLoggerView(selectedDate: $selectedDate)
-                            .transition(.asymmetric(
-                                insertion: .move(edge: .leading).combined(with: .opacity),
-                                removal: .move(edge: .trailing).combined(with: .opacity)
-                            ))
-                    } else if selectedTab == 1 {
-                        MoodCalendarView(
-                            onDateSelected: { date in
-                                selectedDate = date
-                                impactLight.impactOccurred()
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                                    selectedTab = 0
+                // Content - respects safe areas
+                VStack(spacing: 0) {
+                    Group {
+                        if selectedTab == 0 {
+                            MoodLoggerView(selectedDate: $selectedDate)
+                                .transition(.asymmetric(
+                                    insertion: .move(edge: .leading).combined(with: .opacity),
+                                    removal: .move(edge: .trailing).combined(with: .opacity)
+                                ))
+                        } else if selectedTab == 1 {
+                            MoodCalendarView(
+                                onDateSelected: { date in
+                                    selectedDate = date
+                                    impactLight.impactOccurred()
+                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                                        selectedTab = 0
+                                    }
                                 }
-                            }
-                        )
-                        .padding(.top, 120) // Accounting for header height
-                        .transition(.asymmetric(
-                            insertion: .opacity.combined(with: .scale(scale: 0.95)),
-                            removal: .opacity.combined(with: .scale(scale: 1.05))
-                        ))
-                    } else {
-                        AccountView()
+                            )
+                            .padding(.top, 120) // Accounting for header height
                             .transition(.asymmetric(
-                                insertion: .move(edge: .trailing).combined(with: .opacity),
-                                removal: .move(edge: .leading).combined(with: .opacity)
+                                insertion: .opacity.combined(with: .scale(scale: 0.95)),
+                                removal: .opacity.combined(with: .scale(scale: 1.05))
                             ))
+                        } else {
+                            AccountView()
+                                .transition(.asymmetric(
+                                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                                    removal: .move(edge: .leading).combined(with: .opacity)
+                                ))
+                        }
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .animation(.spring(response: 0.35, dampingFraction: 0.8), value: selectedTab)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .animation(.spring(response: 0.35, dampingFraction: 0.8), value: selectedTab)
                 
                 // Floating Tab Bar (iOS 26 Style) - ABSOLUTE FIXED POSITION
                 HStack(spacing: 8) {
@@ -76,9 +82,9 @@ struct MainTabView: View {
                 .padding(.horizontal, 40)
                 .frame(width: geometry.size.width, height: 70)
                 .position(x: geometry.size.width / 2, y: geometry.size.height - 70)
+                .ignoresSafeArea(.all)
             }
         }
-        .ignoresSafeArea(.all)
         .preferredColorScheme(.light)
         .onAppear {
             impactLight.prepare()
