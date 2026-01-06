@@ -3,6 +3,7 @@ import Supabase
 
 struct SignUpView: View {
     let showLogin: () -> Void
+    let skipLogin: () -> Void
     @State private var email = ""
     @State private var password = ""
     @State private var confirmPassword = ""
@@ -20,16 +21,16 @@ struct SignUpView: View {
             }
             
             VStack(spacing: 32) {
-                VStack(spacing: 8) {
+                VStack(spacing: 12) {
+                    Text("🐙")
+                        .font(.system(size: 60))
+                    Text("Octomood")
+                        .font(.system(size: 36, weight: .bold, design: .rounded))
                     Text("Create Account")
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
-                    Text("Join the next generation")
-                        .font(.system(size: 14, weight: .bold))
-                        .textCase(.uppercase)
-                        .tracking(2)
-                        .opacity(0.4)
+                        .font(.system(size: 18, weight: .semibold))
+                        .opacity(0.7)
                 }
-                .padding(.top, 60)
+                .padding(.top, 40)
                 
                 if isSuccess {
                     VStack(spacing: 24) {
@@ -127,16 +128,35 @@ struct SignUpView: View {
                 
                 Spacer()
                 
-                HStack {
-                    Text("Already have an account?")
-                        .opacity(0.6)
-                    Button("Log In") {
-                        showLogin()
+                VStack(spacing: 16) {
+                    // Skip button
+                    Button(action: skipLogin) {
+                        VStack(spacing: 4) {
+                            Text("Continue without account")
+                                .font(.system(size: 15, weight: .semibold))
+                            Text("Data stored locally on your device")
+                                .font(.system(size: 11))
+                                .opacity(0.7)
+                        }
+                        .foregroundColor(.secondary)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 20)
+                        .background(Color.black.opacity(0.05))
+                        .cornerRadius(16)
                     }
-                    .fontWeight(.bold)
-                    .foregroundColor(.blue)
+                    
+                    // Login link
+                    HStack {
+                        Text("Already have an account?")
+                            .opacity(0.6)
+                        Button("Log In") {
+                            showLogin()
+                        }
+                        .fontWeight(.bold)
+                        .foregroundColor(.blue)
+                    }
+                    .font(.subheadline)
                 }
-                .font(.subheadline)
                 .padding(.bottom, 20)
             }
             .padding()

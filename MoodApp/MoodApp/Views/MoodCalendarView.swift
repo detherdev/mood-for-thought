@@ -346,15 +346,44 @@ struct MoodCalendarView: View {
         impactLight.impactOccurred()
         isRefreshing = true
         
-        do {
-            let fetchedMoods = try await SupabaseManager.shared.fetchMoods()
+        let isLocalMode = UserDefaults.standard.bool(forKey: "useLocalMode")
+        
+        if isLocalMode {
+            // Load from local storage
+            let localMoods = LocalMoodStorage.shared.getAllMoods()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            
+            let moodDict = Dictionary(uniqueKeysWithValues: localMoods.map { localMood in
+                let dateString = formatter.string(from: localMood.date)
+                let mood = Mood(
+                    id: localMood.id,
+                    userId: "local",
+                    date: dateString,
+                    mood: localMood.mood,
+                    note: localMood.note,
+                    isSyncedToCalendar: localMood.isSyncedToCalendar
+                )
+                return (dateString, mood)
+            })
+            
             await MainActor.run {
                 withAnimation {
-                    self.moods = Dictionary(uniqueKeysWithValues: fetchedMoods.map { ($0.date, $0) })
+                    self.moods = moodDict
                 }
                 isRefreshing = false
             }
-        } catch {
+        } else {
+            // Load from cloud storage
+            do {
+                let fetchedMoods = try await SupabaseManager.shared.fetchMoods()
+                await MainActor.run {
+                    withAnimation {
+                        self.moods = Dictionary(uniqueKeysWithValues: fetchedMoods.map { ($0.date, $0) })
+                    }
+                    isRefreshing = false
+                }
+            } catch {
             print("Failed to refresh moods: \(error)")
             await MainActor.run {
                 isRefreshing = false
@@ -366,19 +395,38 @@ struct MoodCalendarView: View {
         impactLight.impactOccurred()
         
         Task {
-            do {
-                try await SupabaseManager.shared.deleteMood(date: mood.date)
-                
-                // Also remove from calendar if sync is enabled
-                let _ = await CalendarManager.shared.removeMoodFromCalendar(date: dateFromString(mood.date) ?? Date())
-                
-                await MainActor.run {
-                    withAnimation {
-                        moods.removeValue(forKey: mood.date)
+            let isLocalMode = UserDefaults.standard.bool(forKey: "useLocalMode")
+            
+            if isLocalMode {
+                // Delete from local storage
+                if let date = dateFromString(mood.date) {
+                    LocalMoodStorage.shared.deleteMood(for: date)
+                    
+                    // Also remove from calendar if sync is enabled
+                    let _ = await CalendarManager.shared.removeMoodFromCalendar(date: date)
+                    
+                    await MainActor.run {
+                        withAnimation {
+                            moods.removeValue(forKey: mood.date)
+                        }
                     }
                 }
-            } catch {
-                print("Failed to delete mood: \(error)")
+            } else {
+                // Delete from cloud storage
+                do {
+                    try await SupabaseManager.shared.deleteMood(date: mood.date)
+                    
+                    // Also remove from calendar if sync is enabled
+                    let _ = await CalendarManager.shared.removeMoodFromCalendar(date: dateFromString(mood.date) ?? Date())
+                    
+                    await MainActor.run {
+                        withAnimation {
+                            moods.removeValue(forKey: mood.date)
+                        }
+                    }
+                } catch {
+                    print("Failed to delete mood: \(error)")
+                }
             }
         }
     }
@@ -396,14 +444,42 @@ struct MoodCalendarView: View {
     
     private func loadMoods() {
         Task {
-            do {
-                let fetchedMoods = try await SupabaseManager.shared.fetchMoods()
+            let isLocalMode = UserDefaults.standard.bool(forKey: "useLocalMode")
+            
+            if isLocalMode {
+                // Load from local storage
+                let localMoods = LocalMoodStorage.shared.getAllMoods()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd"
+                
+                let moodDict = Dictionary(uniqueKeysWithValues: localMoods.map { localMood in
+                    let dateString = formatter.string(from: localMood.date)
+                    let mood = Mood(
+                        id: localMood.id,
+                        userId: "local",
+                        date: dateString,
+                        mood: localMood.mood,
+                        note: localMood.note,
+                        isSyncedToCalendar: localMood.isSyncedToCalendar
+                    )
+                    return (dateString, mood)
+                })
+                
                 await MainActor.run {
-                    self.moods = Dictionary(uniqueKeysWithValues: fetchedMoods.map { ($0.date, $0) })
+                    self.moods = moodDict
                     self.isLoading = false
                 }
-            } catch {
-                print("Failed to load moods: \(error)")
+            } else {
+                // Load from cloud storage
+                do {
+                    let fetchedMoods = try await SupabaseManager.shared.fetchMoods()
+                    await MainActor.run {
+                        self.moods = Dictionary(uniqueKeysWithValues: fetchedMoods.map { ($0.date, $0) })
+                        self.isLoading = false
+                    }
+                } catch {
+                    print("Failed to load moods: \(error)")
+                }
             }
         }
     }

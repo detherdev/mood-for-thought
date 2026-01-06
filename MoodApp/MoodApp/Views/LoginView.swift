@@ -3,6 +3,7 @@ import Supabase
 
 struct LoginView: View {
     let showSignUp: () -> Void
+    let skipLogin: () -> Void
     @State private var email = ""
     @State private var password = ""
     @State private var error: String? = nil
@@ -18,16 +19,16 @@ struct LoginView: View {
             }
             
             VStack(spacing: 32) {
-                VStack(spacing: 8) {
+                VStack(spacing: 12) {
+                    Text("🐙")
+                        .font(.system(size: 60))
+                    Text("Octomood")
+                        .font(.system(size: 36, weight: .bold, design: .rounded))
                     Text("Welcome Back")
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
-                    Text("Log in to your account")
-                        .font(.system(size: 14, weight: .bold))
-                        .textCase(.uppercase)
-                        .tracking(2)
-                        .opacity(0.4)
+                        .font(.system(size: 18, weight: .semibold))
+                        .opacity(0.7)
                 }
-                .padding(.top, 60)
+                .padding(.top, 40)
                 
                 VStack(spacing: 20) {
                     VStack(alignment: .leading, spacing: 8) {
@@ -91,16 +92,35 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                HStack {
-                    Text("New to Mood?")
-                        .opacity(0.6)
-                    Button("Create Account") {
-                        showSignUp()
+                VStack(spacing: 16) {
+                    // Skip button
+                    Button(action: skipLogin) {
+                        VStack(spacing: 4) {
+                            Text("Continue without account")
+                                .font(.system(size: 15, weight: .semibold))
+                            Text("Data stored locally on your device")
+                                .font(.system(size: 11))
+                                .opacity(0.7)
+                        }
+                        .foregroundColor(.secondary)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 20)
+                        .background(Color.black.opacity(0.05))
+                        .cornerRadius(16)
                     }
-                    .fontWeight(.bold)
-                    .foregroundColor(.blue)
+                    
+                    // Sign up link
+                    HStack {
+                        Text("New to Octomood?")
+                            .opacity(0.6)
+                        Button("Create Account") {
+                            showSignUp()
+                        }
+                        .fontWeight(.bold)
+                        .foregroundColor(.blue)
+                    }
+                    .font(.subheadline)
                 }
-                .font(.subheadline)
                 .padding(.bottom, 20)
             }
             .padding()

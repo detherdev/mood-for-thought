@@ -493,11 +493,24 @@ struct MoodLoggerView: View {
         Task {
             do {
                 let currentMood = selectedMood ?? .mid
-                try await SupabaseManager.shared.saveMood(
-                    date: selectedDate.format("yyyy-MM-dd"),
-                    mood: currentMood,
-                    note: note.isEmpty ? nil : note
-                )
+                let isLocalMode = UserDefaults.standard.bool(forKey: "useLocalMode")
+                
+                // Save mood (cloud or local)
+                if isLocalMode {
+                    // Local storage (no account)
+                    LocalMoodStorage.shared.saveMood(
+                        date: selectedDate,
+                        mood: currentMood,
+                        note: note.isEmpty ? nil : note
+                    )
+                } else {
+                    // Cloud storage (Supabase)
+                    try await SupabaseManager.shared.saveMood(
+                        date: selectedDate.format("yyyy-MM-dd"),
+                        mood: currentMood,
+                        note: note.isEmpty ? nil : note
+                    )
+                }
                 
                 // Sync to iOS Calendar if enabled
                 let calendarSynced = await CalendarManager.shared.syncMoodToCalendar(
@@ -558,9 +571,11 @@ struct MoodLoggerView: View {
         isSaving = false
         
         Task {
-            do {
-                let dateString = selectedDate.format("yyyy-MM-dd")
-                if let savedMood = try await SupabaseManager.shared.fetchMoodForDate(date: dateString) {
+            let isLocalMode = UserDefaults.standard.bool(forKey: "useLocalMode")
+            
+            if isLocalMode {
+                // Load from local storage
+                if let savedMood = LocalMoodStorage.shared.getMood(for: selectedDate) {
                     await MainActor.run {
                         selectedMood = savedMood.mood
                         note = savedMood.note ?? ""
@@ -575,10 +590,30 @@ struct MoodLoggerView: View {
                         isLoadingMood = false
                     }
                 }
-            } catch {
-                print("Failed to load mood: \(error)")
-                await MainActor.run {
-                    isLoadingMood = false
+            } else {
+                // Load from cloud storage
+                do {
+                    let dateString = selectedDate.format("yyyy-MM-dd")
+                    if let savedMood = try await SupabaseManager.shared.fetchMoodForDate(date: dateString) {
+                        await MainActor.run {
+                            selectedMood = savedMood.mood
+                            note = savedMood.note ?? ""
+                            showNote = savedMood.note != nil && !savedMood.note!.isEmpty
+                            isLoadingMood = false
+                        }
+                    } else {
+                        await MainActor.run {
+                            selectedMood = nil
+                            note = ""
+                            showNote = false
+                            isLoadingMood = false
+                        }
+                    }
+                } catch {
+                    print("Failed to load mood: \(error)")
+                    await MainActor.run {
+                        isLoadingMood = false
+                    }
                 }
             }
         }

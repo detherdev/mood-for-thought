@@ -14,18 +14,27 @@ struct AccountView: View {
             VStack(spacing: 24) {
                 // Header
                 VStack(spacing: 8) {
-                    Image(systemName: "person.circle.fill")
+                    Image(systemName: UserDefaults.standard.bool(forKey: "useLocalMode") ? "iphone" : "cloud.fill")
                         .font(.system(size: 80))
                         .foregroundColor(.blue.opacity(0.3))
                     
-                    Text(supabaseManager.currentUser?.email ?? "Account")
-                        .font(.system(size: 20, weight: .bold))
-                    
-                    Text("Mood Tracker")
-                        .font(.system(size: 12, weight: .bold))
-                        .textCase(.uppercase)
-                        .tracking(2)
-                        .foregroundColor(.secondary)
+                    if UserDefaults.standard.bool(forKey: "useLocalMode") {
+                        Text("Local Account")
+                            .font(.system(size: 20, weight: .bold))
+                        Text("Data stored on device")
+                            .font(.system(size: 12, weight: .bold))
+                            .textCase(.uppercase)
+                            .tracking(2)
+                            .foregroundColor(.secondary)
+                    } else {
+                        Text(supabaseManager.currentUser?.email ?? "Account")
+                            .font(.system(size: 20, weight: .bold))
+                        Text("Cloud Sync Enabled")
+                            .font(.system(size: 12, weight: .bold))
+                            .textCase(.uppercase)
+                            .tracking(2)
+                            .foregroundColor(.secondary)
+                    }
                 }
                 .padding(.top, 60)
                 .padding(.bottom, 20)
